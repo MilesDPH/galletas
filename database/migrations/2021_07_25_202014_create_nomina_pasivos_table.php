@@ -20,6 +20,7 @@ class CreateNominaPasivosTable extends Migration
             $table->float('faltante', 8, 2);
             $table->float('devolucion', 8, 2);
             $table->float('descuento_por_falta', 8, 2);
+            $table->float('descuento_extra', 8, 2);
 
             $table->timestamps();
         });

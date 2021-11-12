@@ -19,6 +19,7 @@ Route::post('rutas/{ruta_id}/mes-nominas/{mes}/nominas', [NominaController::clas
 Route::get('mes-nominas/{id}/metas', [NominaController::class, 'obtenerMetas'])->name('mes-nomina.metas');
 Route::post('mes-nominas/{id}/meta-minima/{cantidad}', [NominaController::class, 'guardarMetaMaxima'])->name('mes-nomina.meta-maxima');
 Route::post('mes-nominas/{id}/meta-maxima/{cantidad}', [NominaController::class, 'guardarMetaMinima'])->name('mes-nomina.meta-minima');
+Route::get('nominas/{id}/imprimir', [NominaController::class, 'imprimirPdf'])->name('nominas.imprimir');
 /*
 |--------------------------------------------------------------------------
 | View Routes

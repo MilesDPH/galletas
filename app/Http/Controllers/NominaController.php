@@ -10,6 +10,8 @@ use App\NominaPasivo;
 use App\NominaPasivoDescuentoExtra;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class NominaController extends Controller
 {
@@ -90,6 +92,7 @@ class NominaController extends Controller
         $pasivos->faltante = $request['pasivos']['faltante'];
         $pasivos->devolucion = $request['pasivos']['devolucion'];
         $pasivos->descuento_por_falta = $request['pasivos']['descuento_por_falta'];
+        $pasivos->descuento_extra = $request['pasivos']['descuento_extra_total'];
         $pasivos->save();
 
         if (isset($request['pasivos']['descuento_extra']))
@@ -308,5 +311,29 @@ class NominaController extends Controller
             'meta_minima' => $mes_nomina->meta_minima,
             'meta_maxima' => $mes_nomina->meta_maxima,
         ];
+    }
+
+    public function imprimirPdf($id)
+    {
+        $nomina = Nomina::findOrFail($id);
+        $nomina->nomina_pasivo;
+        $nomina->nomina_activo;
+        if (!$nomina->direccion_pdf) {
+            $data = [
+                'user_data' => $nomina->user_data,
+                'activos' => $nomina->nomina_activo,
+                'pasivos' => $nomina->nomina_pasivo,
+                'nomina' => $nomina
+            ];
+            $pdf = PDF::loadView('pdf.nominas.nominas', compact('data'));
+            $direccion_pdf = 'invoices/factura' . $id . '.pdf';
+            Storage::put('public/'.$direccion_pdf, $pdf->output());
+            $nomina->direccion_pdf = $direccion_pdf;
+            $nomina->save();
+        }
+
+
+
+        return $nomina->direccion_pdf;
     }
 }

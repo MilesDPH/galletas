@@ -21,6 +21,7 @@ class CreateNominasTable extends Migration
             $table->float('total_pasivos', 8, 2);
             $table->float('total', 8, 2);
             $table->float('venta_semanal', 8, 2);
+            $table->string('direccion_pdf', 255);
             $table->unsignedBigInteger('ruta_id');
             $table->unsignedBigInteger('nomina_pasivo_id');
             $table->unsignedBigInteger('nomina_activo_id');

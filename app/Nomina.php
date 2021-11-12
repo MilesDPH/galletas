@@ -52,4 +52,25 @@ class Nomina extends Model
     public function getMesAttribute(){
         return $this->comienza_en .' to '. $this->finaliza_en;
     }
+
+    public function getUserDataAttribute(){
+        $data = [
+            'user_name'     => '',
+            'user_phone'    => '',
+            'user_email'    => ''
+        ];
+        if($this->ruta){
+            if($this->ruta->user) {
+                $user = $this->ruta->user;
+                $data = [
+                    'user_name' => $user->name . ' ' . $user->apepat . ' ' . $user->apemat,
+                    'user_phone' => $user->phone,
+                    'user_email' => $user->email
+                ];
+            }
+        }
+
+        return $data;
+
+    }
 }

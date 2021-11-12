@@ -1,414 +1,425 @@
 <template>
     <modal name="nomina-modal" class="pt-5 pb-5" height="auto" :scrollable="true" :clickToClose="false"
            @before-open="beforeOpen" width="800">
-        <alv-form :action="form.action" id="nomina-create" :method="form.method" :spinner="true"
-                  :data-object="nomina" @after-done="afterDone" @after-error="afterError" ref="form">
-            <form-wizard :color="'#007B5E'" :title="'Crear Nómina'" ref="wizard"
-                         :subtitle="'Por favor completa los pasos para crear la nómina de esta ruta'">
-                <tab-content title="Metas de mes">
-                    <div class="row g-4 align-center">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Semana</label>
-                                <div class="form-control-wrap">
-                                    <flat-pickr
-                                        id="mes" name="mes"
-                                        v-model="mes"
-                                        :config="configDate">
-                                    </flat-pickr>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Ventas obtenidas en {{ this.mes }}</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" disabled class="form-control"
-                                           id="venta_semanal" name="venta_semanal"
-                                           v-model="venta_semanal"
-                                    >
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="meta_minima">Meta minima</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.meta_minima" name="meta_minima" id="meta_minima" disabled
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="meta_maxima">Meta máxima</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.meta_maxima" name="meta_maxima" id="meta_maxima" disabled
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row g-4 align-center" v-if="modalShow">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="formatted_created_at">Fecha de Creación:</label>
-                                <div class="form-control-wrap">
-                                    <div class="form-icon form-icon-left">
-                                        <em class="icon ni ni-calender-date"></em>
-                                    </div>
-                                    <input type="text" class="form-control" id="formatted_created_at"
-                                           name="formatted_created_at" v-model="nomina.formatted_created_at" disabled>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row g-4 align-center" v-if="modalShow">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="formatted_updated_at">Ultima de actualización:</label>
-                                <div class="form-control-wrap">
-                                    <div class="form-icon form-icon-left">
-                                        <em class="icon ni ni-calender-date"></em>
-                                    </div>
-                                    <input type="text" class="form-control" id="formatted_updated_at"
-                                           name="formatted_updated_at" v-model="nomina.formatted_updated_at" disabled>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </tab-content>
-                <tab-content title="Pago de percepciones">
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Sueldo base</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat disabled
-                                                     class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                                     v-model="nomina.activos.sueldo_base" name="sueldo_base"
-                                                     id="sueldo_base"
-                                                     :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Ayuda de transporte</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.activos.ayuda_transporte" name="ayuda_transporte"
-                                        id="ayuda_transporte"
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Ayuda de despensa</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.activos.ayuda_despensa" name="ayuda_despensa"
-                                        id="ayuda_despensa"
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Comisión</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.activos.comision" name="comision" id="comision" disabled
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Bono de servicio al cliente</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.activos.bono_servicio_cliente" name="bono_servicio_cliente"
-                                        id="bono_servicio_cliente"
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Bono personal</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.activos.bono_personal" name="bono_personal" id="bono_personal"
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Bono devolución</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.activos.bono_devolucion" name="bono_devolucion"
-                                        id="bono_devolucion" disabled
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </tab-content>
-                <tab-content title="Deducciones">
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Infonavit</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.pasivos.infonavit" name="infonavit" id="infonavit"
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Prestamo</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.pasivos.prestamo" name="prestamo"
-                                        id="prestamo"
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Faltante</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.pasivos.faltante" name="faltante" id="faltante"
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Devolución</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        disabled
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.pasivos.devolucion" name="devolucion" id="devolucion"
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="form-label" for="comienza_en">Descuento por falta</label>
-                                <div class="form-control-wrap">
-                                    <VueNumberFormat
-                                        class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                        v-model="nomina.pasivos.descuento_por_falta" name="descuento_por_falta"
-                                        id="descuento_por_falta"
-                                        :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                    ></VueNumberFormat>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <h2>Otros descuentos</h2>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-5">
-                                    <label class="form-label" for="comienza_en">Cantidad</label>
+        <div class="modal-header bg-success">
+            <h5 class="modal-title" id="exampleModalLabel" style="color: #FFFFFF;">
+                Nóminas
+            </h5>
+            <button type="button" class="close" @click="$modal.hide('nomina-modal')">
+                <span aria-hidden="true" class="text-white">&times;</span>
+            </button>
+        </div>
+        <div class="modal-content">
+            <alv-form :action="form.action" id="nomina-create" :method="form.method" :spinner="true"
+                      :data-object="nomina" @after-done="afterDone" @after-error="afterError" ref="form">
+                <form-wizard :color="'#007B5E'" :title="'Crear Nómina'" ref="wizard"
+                             :subtitle="'Por favor completa los pasos para crear la nómina de esta ruta'">
+                    <tab-content title="Metas de mes">
+                        <div class="row g-4 align-center">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Semana</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat v-model="actual_otro_descuento.cantidad"
+                                        <flat-pickr
+                                            id="mes" name="mes"
+                                            v-model="mes"
+                                            :config="configDate">
+                                        </flat-pickr>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Ventas obtenidas en {{ this.mes }}</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" disabled class="form-control"
+                                               id="venta_semanal" name="venta_semanal"
+                                               v-model="venta_semanal"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="meta_minima">Meta minima</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.meta_minima" name="meta_minima" id="meta_minima" disabled
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="meta_maxima">Meta máxima</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.meta_maxima" name="meta_maxima" id="meta_maxima" disabled
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-4 align-center" v-if="modalShow">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="formatted_created_at">Fecha de Creación:</label>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-left">
+                                            <em class="icon ni ni-calender-date"></em>
+                                        </div>
+                                        <input type="text" class="form-control" id="formatted_created_at"
+                                               name="formatted_created_at" v-model="nomina.formatted_created_at" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-4 align-center" v-if="modalShow">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="formatted_updated_at">Ultima de actualización:</label>
+                                    <div class="form-control-wrap">
+                                        <div class="form-icon form-icon-left">
+                                            <em class="icon ni ni-calender-date"></em>
+                                        </div>
+                                        <input type="text" class="form-control" id="formatted_updated_at"
+                                               name="formatted_updated_at" v-model="nomina.formatted_updated_at" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab-content>
+                    <tab-content title="Pago de percepciones">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Sueldo base</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat disabled
                                                          class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                                         name="cantidad"
-                                                         id="cantidad"
+                                                         v-model="nomina.activos.sueldo_base" name="sueldo_base"
+                                                         id="sueldo_base"
                                                          :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
                                         ></VueNumberFormat>
                                     </div>
                                 </div>
-                                <div class="col-5">
-                                    <label class="form-label" for="comienza_en">Descripción</label>
-                                    <input name="descripcion" id="descripcion" class="form-control" type="text"
-                                           v-model="actual_otro_descuento.descripcion">
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Ayuda de transporte</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.activos.ayuda_transporte" name="ayuda_transporte"
+                                            id="ayuda_transporte"
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
                                 </div>
-                                <div class="col-2">
-                                    <label class="form-label" for="comienza_en"> </label>
-                                    <button class="btn btn-primary" @click="agregarOtroDescuento" type="button">
-                                        +
-                                    </button>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Ayuda de despensa</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.activos.ayuda_despensa" name="ayuda_despensa"
+                                            id="ayuda_despensa"
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <table class="table">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Cantidad</th>
-                                    <th scope="col">Descripción</th>
-                                </tr>
-                                </thead>
-                                <tbody v-for="(otro_descuento, index) in descuento_extra">
-                                <tr>
-                                    <th scope="row">{{ index + 1 }}</th>
-                                    <td>{{ otro_descuento.cantidad }}</td>
-                                    <td>{{ otro_descuento.descripcion }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Comisión</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.activos.comision" name="comision" id="comision" disabled
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Bono de servicio al cliente</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.activos.bono_servicio_cliente" name="bono_servicio_cliente"
+                                            id="bono_servicio_cliente"
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Bono personal</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.activos.bono_personal" name="bono_personal" id="bono_personal"
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </tab-content>
-                <tab-content title="Ticket">
-                    <div class="row mx-5">
-                        <div class="col-6">
-                            <h3>Percepciónes</h3>
-                            <table class="table">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Concepto</th>
-                                    <th scope="col">Cantidad</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td> Sueldo base:</td>
-                                    <td>{{ $moneyFormat(nomina.activos.sueldo_base) }}</td>
-                                </tr>
-                                <tr>
-                                    <td> Ayuda de transporte:</td>
-                                    <td>{{ $moneyFormat(nomina.activos.ayuda_transporte) }}</td>
-                                </tr>
-                                <tr>
-                                    <td> Ayuda de despensa:</td>
-                                    <td>{{ $moneyFormat(nomina.activos.ayuda_despensa) }}</td>
-                                </tr>
-                                <tr>
-                                    <td> Comisión:</td>
-                                    <td>{{ $moneyFormat(nomina.activos.comision) }}</td>
-                                </tr>
-                                <tr>
-                                    <td> Bono de servicio al cliente:</td>
-                                    <td>{{ $moneyFormat(nomina.activos.bono_servicio_cliente) }}</td>
-                                </tr>
-                                <tr>
-                                    <td> Bono personal:</td>
-                                    <td>{{ $moneyFormat(nomina.activos.bono_personal) }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Bono devolución</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.activos.bono_devolucion" name="bono_devolucion"
+                                            id="bono_devolucion" disabled
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <h3>Deducciónes</h3>
-                            <table class="table">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Concepto</th>
-                                    <th scope="col">Cantidad</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td> infonavit</td>
-                                    <td>{{ $moneyFormat(nomina.pasivos.infonavit) }}</td>
-                                </tr>
-                                <tr>
-                                    <td> prestamo</td>
-                                    <td>{{ $moneyFormat(nomina.pasivos.prestamo) }}</td>
-                                </tr>
-                                <tr>
-                                    <td> faltante</td>
-                                    <td>{{ $moneyFormat(nomina.pasivos.faltante) }}</td>
-                                </tr>
-                                <tr>
-                                    <td> devolucion</td>
-                                    <td>{{ $moneyFormat(nomina.pasivos.devolucion) }}</td>
-                                </tr>
-                                <tr>
-                                    <td> descuento_por_falta</td>
-                                    <td>{{ $moneyFormat(nomina.pasivos.descuento_por_falta) }}</td>
-                                </tr>
-                                <tr>
-                                    <td> descuento_extra</td>
-                                    <td>{{ $moneyFormat(nomina.pasivos.descuento_extra_total) }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                    </tab-content>
+                    <tab-content title="Deducciones">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Infonavit</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.pasivos.infonavit" name="infonavit" id="infonavit"
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Prestamo</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.pasivos.prestamo" name="prestamo"
+                                            id="prestamo"
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Faltante</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.pasivos.faltante" name="faltante" id="faltante"
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row mx-5">
-                        <div class="col-6">
-                            <h4 style="color: lawngreen">Total: {{ $moneyFormat(nomina.total_activos) }}</h4>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Devolución</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            disabled
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.pasivos.devolucion" name="devolucion" id="devolucion"
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="comienza_en">Descuento por falta</label>
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.pasivos.descuento_por_falta" name="descuento_por_falta"
+                                            id="descuento_por_falta"
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <h4 style="color: red">Total: {{ $moneyFormat(nomina.total_pasivos) }}</h4>
+                        <br>
+                        <h2>Otros descuentos</h2>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label class="form-label" for="comienza_en">Cantidad</label>
+                                        <div class="form-control-wrap">
+                                            <VueNumberFormat v-model="actual_otro_descuento.cantidad"
+                                                             class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                             name="cantidad"
+                                                             id="cantidad"
+                                                             :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                            ></VueNumberFormat>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <label class="form-label" for="comienza_en">Descripción</label>
+                                        <input name="descripcion" id="descripcion" class="form-control" type="text"
+                                               v-model="actual_otro_descuento.descripcion">
+                                    </div>
+                                    <div class="col-2">
+                                        <label class="form-label" for="comienza_en"> </label>
+                                        <button class="btn btn-primary" @click="agregarOtroDescuento" type="button">
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row mx-5">
-                        <div class="col-6">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Descripción</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody v-for="(otro_descuento, index) in descuento_extra">
+                                    <tr>
+                                        <th scope="row">{{ index + 1 }}</th>
+                                        <td>{{ otro_descuento.cantidad }}</td>
+                                        <td>{{ otro_descuento.descripcion }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <h3>Total: {{ $moneyFormat(nomina.total) }}</h3>
+                    </tab-content>
+                    <tab-content title="Ticket">
+                        <div class="row mx-5">
+                            <div class="col-6">
+                                <h3>Percepciónes</h3>
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Concepto</th>
+                                        <th scope="col">Cantidad</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td> Sueldo base:</td>
+                                        <td>{{ $moneyFormat(nomina.activos.sueldo_base) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> Ayuda de transporte:</td>
+                                        <td>{{ $moneyFormat(nomina.activos.ayuda_transporte) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> Ayuda de despensa:</td>
+                                        <td>{{ $moneyFormat(nomina.activos.ayuda_despensa) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> Comisión:</td>
+                                        <td>{{ $moneyFormat(nomina.activos.comision) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> Bono de servicio al cliente:</td>
+                                        <td>{{ $moneyFormat(nomina.activos.bono_servicio_cliente) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> Bono personal:</td>
+                                        <td>{{ $moneyFormat(nomina.activos.bono_personal) }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <h3>Deducciónes</h3>
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Concepto</th>
+                                        <th scope="col">Cantidad</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td> infonavit</td>
+                                        <td>{{ $moneyFormat(nomina.pasivos.infonavit) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> prestamo</td>
+                                        <td>{{ $moneyFormat(nomina.pasivos.prestamo) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> faltante</td>
+                                        <td>{{ $moneyFormat(nomina.pasivos.faltante) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> devolucion</td>
+                                        <td>{{ $moneyFormat(nomina.pasivos.devolucion) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> descuento_por_falta</td>
+                                        <td>{{ $moneyFormat(nomina.pasivos.descuento_por_falta) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> descuento_extra</td>
+                                        <td>{{ $moneyFormat(nomina.pasivos.descuento_extra_total) }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </tab-content>
-                <template slot="footer" slot-scope="props">
-                    <div class="wizard-footer-left">
-                        <button v-if="props.activeTabIndex > 0 && !props.isLastStep"
-                                @click="props.prevTab()" class="wizard-btn"
-                                :style="props.fillButtonStyle">Previous
-                        </button>
-                    </div>
-                    <div class="wizard-footer-right">
-                        <button v-if="!props.isLastStep" type="button" @click="enviarInformacion()"
-                                class="wizard-btn"
-                                :style="props.fillButtonStyle">Siguiente
-                        </button>
+                        <hr>
+                        <div class="row mx-5">
+                            <div class="col-6">
+                                <h4 style="color: lawngreen">Total: {{ $moneyFormat(nomina.total_activos) }}</h4>
+                            </div>
+                            <div class="col-6">
+                                <h4 style="color: red">Total: {{ $moneyFormat(nomina.total_pasivos) }}</h4>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mx-5">
+                            <div class="col-6">
+                            </div>
+                            <div class="col-6">
+                                <h3>Total: {{ $moneyFormat(nomina.total) }}</h3>
+                            </div>
+                        </div>
+                    </tab-content>
+                    <template slot="footer" slot-scope="props">
+                        <div class="wizard-footer-left">
+                            <button v-if="props.activeTabIndex > 0 && !props.isLastStep"
+                                    @click="props.prevTab()" class="wizard-btn"
+                                    :style="props.fillButtonStyle">Previous
+                            </button>
+                        </div>
+                        <div class="wizard-footer-right">
+                            <button v-if="!props.isLastStep" type="button" @click="enviarInformacion()"
+                                    class="wizard-btn"
+                                    :style="props.fillButtonStyle">Siguiente
+                            </button>
 
-                        <button v-else @click="finalizarWizard()" class="wizard-btn"
-                                :style="props.fillButtonStyle"> {{ props.isLastStep ? 'Listo!' : 'Siguiente' }}
-                        </button>
-                    </div>
-                </template>
-            </form-wizard>
-        </alv-form>
+                            <button v-else @click="finalizarWizard()" class="wizard-btn"
+                                    :style="props.fillButtonStyle"> {{ props.isLastStep ? 'Listo!' : 'Siguiente' }}
+                            </button>
+                        </div>
+                    </template>
+                </form-wizard>
+            </alv-form>
+        </div>
+        <div class="modal-footer"></div>
     </modal>
 </template>
 

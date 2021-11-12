@@ -44,13 +44,16 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <button class="btn btn-dim btn-success" @click="showNominas(nomina.id)"><i class="las la-eye"></i>
+                                    <button class="btn btn-dim btn-success" @click="showNominas(nomina.id)"><i
+                                        class="las la-eye"></i>
                                     </button>
                                     <button class="btn btn-dim btn-primary" @click="editNominas(nomina.id)"><i
                                         class="las la-pencil-alt"></i></button>
-                                    <button class="btn btn-dim btn-danger" @click="deleteNominas(nomina.id)"><i class="las la-trash"></i>
+                                    <button class="btn btn-dim btn-danger" @click="deleteNominas(nomina.id)"><i
+                                        class="las la-trash"></i>
                                     </button>
-                                    <button class="btn btn-dim btn-info" @click="deleteNominas(nomina.id)"><i class="las la-print"></i>
+                                    <button class="btn btn-dim btn-info" @click="imprimirNominas(nomina.id)"><i
+                                        class="las la-print"></i>
                                     </button>
                                 </div>
                             </div>
@@ -117,6 +120,12 @@ export default {
             const numberFormat = new Intl.NumberFormat('en-US', options);
 
             return numberFormat.format(quantity);
+        },
+        imprimirNominas(id) {
+            axios.get(this.$route('nominas.imprimir', id)).then(response => {
+
+                window.open('../../../../' + response.data, '_blank');
+            })
         },
         reloadTable() {
             this.obtenerNominas();

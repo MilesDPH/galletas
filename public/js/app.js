@@ -2740,6 +2740,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3076,6 +3087,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3117,6 +3131,11 @@ __webpack_require__.r(__webpack_exports__);
       };
       var numberFormat = new Intl.NumberFormat('en-US', options);
       return numberFormat.format(quantity);
+    },
+    imprimirNominas: function imprimirNominas(id) {
+      axios.get(this.$route('nominas.imprimir', id)).then(function (response) {
+        window.open('../../../../' + response.data, '_blank');
+      });
     },
     reloadTable: function reloadTable() {
       this.obtenerNominas();
@@ -74247,1382 +74266,1476 @@ var render = function() {
       on: { "before-open": _vm.beforeOpen }
     },
     [
-      _c(
-        "alv-form",
-        {
-          ref: "form",
-          attrs: {
-            action: _vm.form.action,
-            id: "nomina-create",
-            method: _vm.form.method,
-            spinner: true,
-            "data-object": _vm.nomina
+      _c("div", { staticClass: "modal-header bg-success" }, [
+        _c(
+          "h5",
+          {
+            staticClass: "modal-title",
+            staticStyle: { color: "#FFFFFF" },
+            attrs: { id: "exampleModalLabel" }
           },
-          on: { "after-done": _vm.afterDone, "after-error": _vm.afterError }
-        },
+          [_vm._v("\n            Nóminas\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "close",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.$modal.hide("nomina-modal")
+              }
+            }
+          },
+          [
+            _c(
+              "span",
+              { staticClass: "text-white", attrs: { "aria-hidden": "true" } },
+              [_vm._v("×")]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "modal-content" },
         [
           _c(
-            "form-wizard",
+            "alv-form",
             {
-              ref: "wizard",
+              ref: "form",
               attrs: {
-                color: "#007B5E",
-                title: "Crear Nómina",
-                subtitle:
-                  "Por favor completa los pasos para crear la nómina de esta ruta"
+                action: _vm.form.action,
+                id: "nomina-create",
+                method: _vm.form.method,
+                spinner: true,
+                "data-object": _vm.nomina
               },
-              scopedSlots: _vm._u([
-                {
-                  key: "footer",
-                  fn: function(props) {
-                    return [
-                      _c("div", { staticClass: "wizard-footer-left" }, [
-                        props.activeTabIndex > 0 && !props.isLastStep
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "wizard-btn",
-                                style: props.fillButtonStyle,
-                                on: {
-                                  click: function($event) {
-                                    return props.prevTab()
-                                  }
-                                }
-                              },
-                              [_vm._v("Previous\n                    ")]
-                            )
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "wizard-footer-right" }, [
-                        !props.isLastStep
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "wizard-btn",
-                                style: props.fillButtonStyle,
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.enviarInformacion()
-                                  }
-                                }
-                              },
-                              [_vm._v("Siguiente\n                    ")]
-                            )
-                          : _c(
-                              "button",
-                              {
-                                staticClass: "wizard-btn",
-                                style: props.fillButtonStyle,
-                                on: {
-                                  click: function($event) {
-                                    return _vm.finalizarWizard()
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  " " +
-                                    _vm._s(
-                                      props.isLastStep ? "Listo!" : "Siguiente"
-                                    ) +
-                                    "\n                    "
-                                )
-                              ]
-                            )
-                      ])
-                    ]
-                  }
-                }
-              ])
+              on: { "after-done": _vm.afterDone, "after-error": _vm.afterError }
             },
             [
-              _c("tab-content", { attrs: { title: "Metas de mes" } }, [
-                _c("div", { staticClass: "row g-4 align-center" }, [
-                  _c("div", { staticClass: "col-12" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Semana")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("flat-pickr", {
-                            attrs: {
-                              id: "mes",
-                              name: "mes",
-                              config: _vm.configDate
-                            },
-                            model: {
-                              value: _vm.mes,
-                              callback: function($$v) {
-                                _vm.mes = $$v
-                              },
-                              expression: "mes"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Ventas obtenidas en " + _vm._s(this.mes))]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-control-wrap" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.venta_semanal,
-                              expression: "venta_semanal"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            disabled: "",
-                            id: "venta_semanal",
-                            name: "venta_semanal"
-                          },
-                          domProps: { value: _vm.venta_semanal },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.venta_semanal = $event.target.value
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "meta_minima" }
-                        },
-                        [_vm._v("Meta minima")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "meta_minima",
-                              id: "meta_minima",
-                              disabled: "",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.meta_minima,
-                              callback: function($$v) {
-                                _vm.$set(_vm.nomina, "meta_minima", $$v)
-                              },
-                              expression: "nomina.meta_minima"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "meta_maxima" }
-                        },
-                        [_vm._v("Meta máxima")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "meta_maxima",
-                              id: "meta_maxima",
-                              disabled: "",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.meta_maxima,
-                              callback: function($$v) {
-                                _vm.$set(_vm.nomina, "meta_maxima", $$v)
-                              },
-                              expression: "nomina.meta_maxima"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
+              _c(
+                "form-wizard",
+                {
+                  ref: "wizard",
+                  attrs: {
+                    color: "#007B5E",
+                    title: "Crear Nómina",
+                    subtitle:
+                      "Por favor completa los pasos para crear la nómina de esta ruta"
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "footer",
+                      fn: function(props) {
+                        return [
+                          _c("div", { staticClass: "wizard-footer-left" }, [
+                            props.activeTabIndex > 0 && !props.isLastStep
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "wizard-btn",
+                                    style: props.fillButtonStyle,
+                                    on: {
+                                      click: function($event) {
+                                        return props.prevTab()
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Previous\n                        ")]
+                                )
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "wizard-footer-right" }, [
+                            !props.isLastStep
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "wizard-btn",
+                                    style: props.fillButtonStyle,
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.enviarInformacion()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "Siguiente\n                        "
+                                    )
+                                  ]
+                                )
+                              : _c(
+                                  "button",
+                                  {
+                                    staticClass: "wizard-btn",
+                                    style: props.fillButtonStyle,
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.finalizarWizard()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      " " +
+                                        _vm._s(
+                                          props.isLastStep
+                                            ? "Listo!"
+                                            : "Siguiente"
+                                        ) +
+                                        "\n                        "
+                                    )
+                                  ]
+                                )
+                          ])
+                        ]
+                      }
+                    }
                   ])
-                ]),
-                _vm._v(" "),
-                _vm.modalShow
-                  ? _c("div", { staticClass: "row g-4 align-center" }, [
+                },
+                [
+                  _c("tab-content", { attrs: { title: "Metas de mes" } }, [
+                    _c("div", { staticClass: "row g-4 align-center" }, [
                       _c("div", { staticClass: "col-12" }, [
                         _c("div", { staticClass: "form-group" }, [
                           _c(
                             "label",
                             {
                               staticClass: "form-label",
-                              attrs: { for: "formatted_created_at" }
+                              attrs: { for: "comienza_en" }
                             },
-                            [_vm._v("Fecha de Creación:")]
+                            [_vm._v("Semana")]
                           ),
                           _vm._v(" "),
-                          _c("div", { staticClass: "form-control-wrap" }, [
-                            _c(
-                              "div",
-                              { staticClass: "form-icon form-icon-left" },
-                              [
-                                _c("em", {
-                                  staticClass: "icon ni ni-calender-date"
-                                })
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.nomina.formatted_created_at,
-                                  expression: "nomina.formatted_created_at"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "text",
-                                id: "formatted_created_at",
-                                name: "formatted_created_at",
-                                disabled: ""
-                              },
-                              domProps: {
-                                value: _vm.nomina.formatted_created_at
-                              },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.nomina,
-                                    "formatted_created_at",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ])
-                        ])
-                      ])
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.modalShow
-                  ? _c("div", { staticClass: "row g-4 align-center" }, [
-                      _c("div", { staticClass: "col-12" }, [
-                        _c("div", { staticClass: "form-group" }, [
                           _c(
-                            "label",
-                            {
-                              staticClass: "form-label",
-                              attrs: { for: "formatted_updated_at" }
-                            },
-                            [_vm._v("Ultima de actualización:")]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-control-wrap" }, [
-                            _c(
-                              "div",
-                              { staticClass: "form-icon form-icon-left" },
-                              [
-                                _c("em", {
-                                  staticClass: "icon ni ni-calender-date"
-                                })
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.nomina.formatted_updated_at,
-                                  expression: "nomina.formatted_updated_at"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "text",
-                                id: "formatted_updated_at",
-                                name: "formatted_updated_at",
-                                disabled: ""
-                              },
-                              domProps: {
-                                value: _vm.nomina.formatted_updated_at
-                              },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.nomina,
-                                    "formatted_updated_at",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ])
-                        ])
-                      ])
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("tab-content", { attrs: { title: "Pago de percepciones" } }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Sueldo base")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              disabled: "",
-                              name: "sueldo_base",
-                              id: "sueldo_base",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.activos.sueldo_base,
-                              callback: function($$v) {
-                                _vm.$set(_vm.nomina.activos, "sueldo_base", $$v)
-                              },
-                              expression: "nomina.activos.sueldo_base"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Ayuda de transporte")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "ayuda_transporte",
-                              id: "ayuda_transporte",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.activos.ayuda_transporte,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.nomina.activos,
-                                  "ayuda_transporte",
-                                  $$v
-                                )
-                              },
-                              expression: "nomina.activos.ayuda_transporte"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Ayuda de despensa")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "ayuda_despensa",
-                              id: "ayuda_despensa",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.activos.ayuda_despensa,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.nomina.activos,
-                                  "ayuda_despensa",
-                                  $$v
-                                )
-                              },
-                              expression: "nomina.activos.ayuda_despensa"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Comisión")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "comision",
-                              id: "comision",
-                              disabled: "",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.activos.comision,
-                              callback: function($$v) {
-                                _vm.$set(_vm.nomina.activos, "comision", $$v)
-                              },
-                              expression: "nomina.activos.comision"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Bono de servicio al cliente")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "bono_servicio_cliente",
-                              id: "bono_servicio_cliente",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.activos.bono_servicio_cliente,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.nomina.activos,
-                                  "bono_servicio_cliente",
-                                  $$v
-                                )
-                              },
-                              expression: "nomina.activos.bono_servicio_cliente"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Bono personal")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "bono_personal",
-                              id: "bono_personal",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.activos.bono_personal,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.nomina.activos,
-                                  "bono_personal",
-                                  $$v
-                                )
-                              },
-                              expression: "nomina.activos.bono_personal"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-6" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Bono devolución")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "bono_devolucion",
-                              id: "bono_devolucion",
-                              disabled: "",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.activos.bono_devolucion,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.nomina.activos,
-                                  "bono_devolucion",
-                                  $$v
-                                )
-                              },
-                              expression: "nomina.activos.bono_devolucion"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tab-content", { attrs: { title: "Deducciones" } }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Infonavit")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "infonavit",
-                              id: "infonavit",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.pasivos.infonavit,
-                              callback: function($$v) {
-                                _vm.$set(_vm.nomina.pasivos, "infonavit", $$v)
-                              },
-                              expression: "nomina.pasivos.infonavit"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Prestamo")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "prestamo",
-                              id: "prestamo",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.pasivos.prestamo,
-                              callback: function($$v) {
-                                _vm.$set(_vm.nomina.pasivos, "prestamo", $$v)
-                              },
-                              expression: "nomina.pasivos.prestamo"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Faltante")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "faltante",
-                              id: "faltante",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.pasivos.faltante,
-                              callback: function($$v) {
-                                _vm.$set(_vm.nomina.pasivos, "faltante", $$v)
-                              },
-                              expression: "nomina.pasivos.faltante"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-6" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Devolución")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              disabled: "",
-                              name: "devolucion",
-                              id: "devolucion",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.pasivos.devolucion,
-                              callback: function($$v) {
-                                _vm.$set(_vm.nomina.pasivos, "devolucion", $$v)
-                              },
-                              expression: "nomina.pasivos.devolucion"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-6" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        },
-                        [_vm._v("Descuento por falta")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-control-wrap" },
-                        [
-                          _c("VueNumberFormat", {
-                            staticClass:
-                              "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                            attrs: {
-                              name: "descuento_por_falta",
-                              id: "descuento_por_falta",
-                              options: {
-                                precision: 2,
-                                prefix: "",
-                                suffix: " MXN",
-                                decimal: ".",
-                                thousand: ",",
-                                acceptNegative: false,
-                                isInteger: false
-                              }
-                            },
-                            model: {
-                              value: _vm.nomina.pasivos.descuento_por_falta,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.nomina.pasivos,
-                                  "descuento_por_falta",
-                                  $$v
-                                )
-                              },
-                              expression: "nomina.pasivos.descuento_por_falta"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("h2", [_vm._v("Otros descuentos")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-12" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-5" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "form-label",
-                            attrs: { for: "comienza_en" }
-                          },
-                          [_vm._v("Cantidad")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "form-control-wrap" },
-                          [
-                            _c("VueNumberFormat", {
-                              staticClass:
-                                "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
-                              attrs: {
-                                name: "cantidad",
-                                id: "cantidad",
-                                options: {
-                                  precision: 2,
-                                  prefix: "",
-                                  suffix: " MXN",
-                                  decimal: ".",
-                                  thousand: ",",
-                                  acceptNegative: false,
-                                  isInteger: false
-                                }
-                              },
-                              model: {
-                                value: _vm.actual_otro_descuento.cantidad,
-                                callback: function($$v) {
-                                  _vm.$set(
-                                    _vm.actual_otro_descuento,
-                                    "cantidad",
-                                    $$v
-                                  )
+                            "div",
+                            { staticClass: "form-control-wrap" },
+                            [
+                              _c("flat-pickr", {
+                                attrs: {
+                                  id: "mes",
+                                  name: "mes",
+                                  config: _vm.configDate
                                 },
-                                expression: "actual_otro_descuento.cantidad"
+                                model: {
+                                  value: _vm.mes,
+                                  callback: function($$v) {
+                                    _vm.mes = $$v
+                                  },
+                                  expression: "mes"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "comienza_en" }
+                            },
+                            [_vm._v("Ventas obtenidas en " + _vm._s(this.mes))]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-control-wrap" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.venta_semanal,
+                                  expression: "venta_semanal"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                disabled: "",
+                                id: "venta_semanal",
+                                name: "venta_semanal"
+                              },
+                              domProps: { value: _vm.venta_semanal },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.venta_semanal = $event.target.value
+                                }
                               }
                             })
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-5" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "form-label",
-                            attrs: { for: "comienza_en" }
-                          },
-                          [_vm._v("Descripción")]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.actual_otro_descuento.descripcion,
-                              expression: "actual_otro_descuento.descripcion"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            name: "descripcion",
-                            id: "descripcion",
-                            type: "text"
-                          },
-                          domProps: {
-                            value: _vm.actual_otro_descuento.descripcion
-                          },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.actual_otro_descuento,
-                                "descripcion",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-2" }, [
-                        _c("label", {
-                          staticClass: "form-label",
-                          attrs: { for: "comienza_en" }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-primary",
-                            attrs: { type: "button" },
-                            on: { click: _vm.agregarOtroDescuento }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                    +\n                                "
-                            )
-                          ]
-                        )
-                      ])
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-12" }, [
-                    _c(
-                      "table",
-                      { staticClass: "table" },
-                      [
-                        _c("thead", { staticClass: "thead-dark" }, [
-                          _c("tr", [
-                            _c("th", { attrs: { scope: "col" } }, [
-                              _vm._v("#")
-                            ]),
-                            _vm._v(" "),
-                            _c("th", { attrs: { scope: "col" } }, [
-                              _vm._v("Cantidad")
-                            ]),
-                            _vm._v(" "),
-                            _c("th", { attrs: { scope: "col" } }, [
-                              _vm._v("Descripción")
-                            ])
                           ])
                         ]),
                         _vm._v(" "),
-                        _vm._l(_vm.descuento_extra, function(
-                          otro_descuento,
-                          index
-                        ) {
-                          return _c("tbody", [
-                            _c("tr", [
-                              _c("th", { attrs: { scope: "row" } }, [
-                                _vm._v(_vm._s(index + 1))
-                              ]),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "meta_minima" }
+                            },
+                            [_vm._v("Meta minima")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form-control-wrap" },
+                            [
+                              _c("VueNumberFormat", {
+                                staticClass:
+                                  "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                attrs: {
+                                  name: "meta_minima",
+                                  id: "meta_minima",
+                                  disabled: "",
+                                  options: {
+                                    precision: 2,
+                                    prefix: "",
+                                    suffix: " MXN",
+                                    decimal: ".",
+                                    thousand: ",",
+                                    acceptNegative: false,
+                                    isInteger: false
+                                  }
+                                },
+                                model: {
+                                  value: _vm.nomina.meta_minima,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.nomina, "meta_minima", $$v)
+                                  },
+                                  expression: "nomina.meta_minima"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "meta_maxima" }
+                            },
+                            [_vm._v("Meta máxima")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form-control-wrap" },
+                            [
+                              _c("VueNumberFormat", {
+                                staticClass:
+                                  "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                attrs: {
+                                  name: "meta_maxima",
+                                  id: "meta_maxima",
+                                  disabled: "",
+                                  options: {
+                                    precision: 2,
+                                    prefix: "",
+                                    suffix: " MXN",
+                                    decimal: ".",
+                                    thousand: ",",
+                                    acceptNegative: false,
+                                    isInteger: false
+                                  }
+                                },
+                                model: {
+                                  value: _vm.nomina.meta_maxima,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.nomina, "meta_maxima", $$v)
+                                  },
+                                  expression: "nomina.meta_maxima"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.modalShow
+                      ? _c("div", { staticClass: "row g-4 align-center" }, [
+                          _c("div", { staticClass: "col-12" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "form-label",
+                                  attrs: { for: "formatted_created_at" }
+                                },
+                                [_vm._v("Fecha de Creación:")]
+                              ),
                               _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(otro_descuento.cantidad))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(otro_descuento.descripcion))
+                              _c("div", { staticClass: "form-control-wrap" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "form-icon form-icon-left" },
+                                  [
+                                    _c("em", {
+                                      staticClass: "icon ni ni-calender-date"
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.nomina.formatted_created_at,
+                                      expression: "nomina.formatted_created_at"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "formatted_created_at",
+                                    name: "formatted_created_at",
+                                    disabled: ""
+                                  },
+                                  domProps: {
+                                    value: _vm.nomina.formatted_created_at
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.nomina,
+                                        "formatted_created_at",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
                               ])
                             ])
                           ])
-                        })
-                      ],
-                      2
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tab-content", { attrs: { title: "Ticket" } }, [
-                _c("div", { staticClass: "row mx-5" }, [
-                  _c("div", { staticClass: "col-6" }, [
-                    _c("h3", [_vm._v("Percepciónes")]),
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("table", { staticClass: "table" }, [
-                      _c("thead", { staticClass: "thead-dark" }, [
-                        _c("tr", [
-                          _c("th", { attrs: { scope: "col" } }, [
-                            _vm._v("Concepto")
-                          ]),
-                          _vm._v(" "),
-                          _c("th", { attrs: { scope: "col" } }, [
-                            _vm._v("Cantidad")
+                    _vm.modalShow
+                      ? _c("div", { staticClass: "row g-4 align-center" }, [
+                          _c("div", { staticClass: "col-12" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "form-label",
+                                  attrs: { for: "formatted_updated_at" }
+                                },
+                                [_vm._v("Ultima de actualización:")]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-control-wrap" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "form-icon form-icon-left" },
+                                  [
+                                    _c("em", {
+                                      staticClass: "icon ni ni-calender-date"
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.nomina.formatted_updated_at,
+                                      expression: "nomina.formatted_updated_at"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "formatted_updated_at",
+                                    name: "formatted_updated_at",
+                                    disabled: ""
+                                  },
+                                  domProps: {
+                                    value: _vm.nomina.formatted_updated_at
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.nomina,
+                                        "formatted_updated_at",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ])
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "tab-content",
+                    { attrs: { title: "Pago de percepciones" } },
+                    [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-4" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-label",
+                                attrs: { for: "comienza_en" }
+                              },
+                              [_vm._v("Sueldo base")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "form-control-wrap" },
+                              [
+                                _c("VueNumberFormat", {
+                                  staticClass:
+                                    "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                  attrs: {
+                                    disabled: "",
+                                    name: "sueldo_base",
+                                    id: "sueldo_base",
+                                    options: {
+                                      precision: 2,
+                                      prefix: "",
+                                      suffix: " MXN",
+                                      decimal: ".",
+                                      thousand: ",",
+                                      acceptNegative: false,
+                                      isInteger: false
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.nomina.activos.sueldo_base,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.nomina.activos,
+                                        "sueldo_base",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "nomina.activos.sueldo_base"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-4" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-label",
+                                attrs: { for: "comienza_en" }
+                              },
+                              [_vm._v("Ayuda de transporte")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "form-control-wrap" },
+                              [
+                                _c("VueNumberFormat", {
+                                  staticClass:
+                                    "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                  attrs: {
+                                    name: "ayuda_transporte",
+                                    id: "ayuda_transporte",
+                                    options: {
+                                      precision: 2,
+                                      prefix: "",
+                                      suffix: " MXN",
+                                      decimal: ".",
+                                      thousand: ",",
+                                      acceptNegative: false,
+                                      isInteger: false
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.nomina.activos.ayuda_transporte,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.nomina.activos,
+                                        "ayuda_transporte",
+                                        $$v
+                                      )
+                                    },
+                                    expression:
+                                      "nomina.activos.ayuda_transporte"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-4" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-label",
+                                attrs: { for: "comienza_en" }
+                              },
+                              [_vm._v("Ayuda de despensa")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "form-control-wrap" },
+                              [
+                                _c("VueNumberFormat", {
+                                  staticClass:
+                                    "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                  attrs: {
+                                    name: "ayuda_despensa",
+                                    id: "ayuda_despensa",
+                                    options: {
+                                      precision: 2,
+                                      prefix: "",
+                                      suffix: " MXN",
+                                      decimal: ".",
+                                      thousand: ",",
+                                      acceptNegative: false,
+                                      isInteger: false
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.nomina.activos.ayuda_despensa,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.nomina.activos,
+                                        "ayuda_despensa",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "nomina.activos.ayuda_despensa"
+                                  }
+                                })
+                              ],
+                              1
+                            )
                           ])
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("tbody", [
-                        _c("tr", [
-                          _c("td", [_vm._v(" Sueldo base:")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(_vm.nomina.activos.sueldo_base)
-                              )
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-4" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-label",
+                                attrs: { for: "comienza_en" }
+                              },
+                              [_vm._v("Comisión")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "form-control-wrap" },
+                              [
+                                _c("VueNumberFormat", {
+                                  staticClass:
+                                    "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                  attrs: {
+                                    name: "comision",
+                                    id: "comision",
+                                    disabled: "",
+                                    options: {
+                                      precision: 2,
+                                      prefix: "",
+                                      suffix: " MXN",
+                                      decimal: ".",
+                                      thousand: ",",
+                                      acceptNegative: false,
+                                      isInteger: false
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.nomina.activos.comision,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.nomina.activos,
+                                        "comision",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "nomina.activos.comision"
+                                  }
+                                })
+                              ],
+                              1
                             )
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v(" Ayuda de transporte:")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(
-                                  _vm.nomina.activos.ayuda_transporte
-                                )
-                              )
+                        _c("div", { staticClass: "col-4" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-label",
+                                attrs: { for: "comienza_en" }
+                              },
+                              [_vm._v("Bono de servicio al cliente")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "form-control-wrap" },
+                              [
+                                _c("VueNumberFormat", {
+                                  staticClass:
+                                    "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                  attrs: {
+                                    name: "bono_servicio_cliente",
+                                    id: "bono_servicio_cliente",
+                                    options: {
+                                      precision: 2,
+                                      prefix: "",
+                                      suffix: " MXN",
+                                      decimal: ".",
+                                      thousand: ",",
+                                      acceptNegative: false,
+                                      isInteger: false
+                                    }
+                                  },
+                                  model: {
+                                    value:
+                                      _vm.nomina.activos.bono_servicio_cliente,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.nomina.activos,
+                                        "bono_servicio_cliente",
+                                        $$v
+                                      )
+                                    },
+                                    expression:
+                                      "nomina.activos.bono_servicio_cliente"
+                                  }
+                                })
+                              ],
+                              1
                             )
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v(" Ayuda de despensa:")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(
-                                  _vm.nomina.activos.ayuda_despensa
-                                )
-                              )
+                        _c("div", { staticClass: "col-4" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-label",
+                                attrs: { for: "comienza_en" }
+                              },
+                              [_vm._v("Bono personal")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "form-control-wrap" },
+                              [
+                                _c("VueNumberFormat", {
+                                  staticClass:
+                                    "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                  attrs: {
+                                    name: "bono_personal",
+                                    id: "bono_personal",
+                                    options: {
+                                      precision: 2,
+                                      prefix: "",
+                                      suffix: " MXN",
+                                      decimal: ".",
+                                      thousand: ",",
+                                      acceptNegative: false,
+                                      isInteger: false
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.nomina.activos.bono_personal,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.nomina.activos,
+                                        "bono_personal",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "nomina.activos.bono_personal"
+                                  }
+                                })
+                              ],
+                              1
                             )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v(" Comisión:")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(_vm.nomina.activos.comision)
-                              )
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v(" Bono de servicio al cliente:")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(
-                                  _vm.nomina.activos.bono_servicio_cliente
-                                )
-                              )
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v(" Bono personal:")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(
-                                  _vm.nomina.activos.bono_personal
-                                )
-                              )
-                            )
-                          ])
-                        ])
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-6" }, [
-                    _c("h3", [_vm._v("Deducciónes")]),
-                    _vm._v(" "),
-                    _c("table", { staticClass: "table" }, [
-                      _c("thead", { staticClass: "thead-dark" }, [
-                        _c("tr", [
-                          _c("th", { attrs: { scope: "col" } }, [
-                            _vm._v("Concepto")
-                          ]),
-                          _vm._v(" "),
-                          _c("th", { attrs: { scope: "col" } }, [
-                            _vm._v("Cantidad")
                           ])
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("tbody", [
-                        _c("tr", [
-                          _c("td", [_vm._v(" infonavit")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(_vm.nomina.pasivos.infonavit)
-                              )
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v(" prestamo")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(_vm.nomina.pasivos.prestamo)
-                              )
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v(" faltante")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(_vm.nomina.pasivos.faltante)
-                              )
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v(" devolucion")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(_vm.nomina.pasivos.devolucion)
-                              )
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v(" descuento_por_falta")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(
-                                  _vm.nomina.pasivos.descuento_por_falta
-                                )
-                              )
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("tr", [
-                          _c("td", [_vm._v(" descuento_extra")]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.$moneyFormat(
-                                  _vm.nomina.pasivos.descuento_extra_total
-                                )
-                              )
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-6" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-label",
+                                attrs: { for: "comienza_en" }
+                              },
+                              [_vm._v("Bono devolución")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "form-control-wrap" },
+                              [
+                                _c("VueNumberFormat", {
+                                  staticClass:
+                                    "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                  attrs: {
+                                    name: "bono_devolucion",
+                                    id: "bono_devolucion",
+                                    disabled: "",
+                                    options: {
+                                      precision: 2,
+                                      prefix: "",
+                                      suffix: " MXN",
+                                      decimal: ".",
+                                      thousand: ",",
+                                      acceptNegative: false,
+                                      isInteger: false
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.nomina.activos.bono_devolucion,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.nomina.activos,
+                                        "bono_devolucion",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "nomina.activos.bono_devolucion"
+                                  }
+                                })
+                              ],
+                              1
                             )
                           ])
                         ])
                       ])
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("hr"),
-                _vm._v(" "),
-                _c("div", { staticClass: "row mx-5" }, [
-                  _c("div", { staticClass: "col-6" }, [
-                    _c("h4", { staticStyle: { color: "lawngreen" } }, [
-                      _vm._v(
-                        "Total: " +
-                          _vm._s(_vm.$moneyFormat(_vm.nomina.total_activos))
-                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("tab-content", { attrs: { title: "Deducciones" } }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-4" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "comienza_en" }
+                            },
+                            [_vm._v("Infonavit")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form-control-wrap" },
+                            [
+                              _c("VueNumberFormat", {
+                                staticClass:
+                                  "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                attrs: {
+                                  name: "infonavit",
+                                  id: "infonavit",
+                                  options: {
+                                    precision: 2,
+                                    prefix: "",
+                                    suffix: " MXN",
+                                    decimal: ".",
+                                    thousand: ",",
+                                    acceptNegative: false,
+                                    isInteger: false
+                                  }
+                                },
+                                model: {
+                                  value: _vm.nomina.pasivos.infonavit,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.nomina.pasivos,
+                                      "infonavit",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "nomina.pasivos.infonavit"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-4" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "comienza_en" }
+                            },
+                            [_vm._v("Prestamo")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form-control-wrap" },
+                            [
+                              _c("VueNumberFormat", {
+                                staticClass:
+                                  "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                attrs: {
+                                  name: "prestamo",
+                                  id: "prestamo",
+                                  options: {
+                                    precision: 2,
+                                    prefix: "",
+                                    suffix: " MXN",
+                                    decimal: ".",
+                                    thousand: ",",
+                                    acceptNegative: false,
+                                    isInteger: false
+                                  }
+                                },
+                                model: {
+                                  value: _vm.nomina.pasivos.prestamo,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.nomina.pasivos,
+                                      "prestamo",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "nomina.pasivos.prestamo"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-4" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "comienza_en" }
+                            },
+                            [_vm._v("Faltante")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form-control-wrap" },
+                            [
+                              _c("VueNumberFormat", {
+                                staticClass:
+                                  "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                attrs: {
+                                  name: "faltante",
+                                  id: "faltante",
+                                  options: {
+                                    precision: 2,
+                                    prefix: "",
+                                    suffix: " MXN",
+                                    decimal: ".",
+                                    thousand: ",",
+                                    acceptNegative: false,
+                                    isInteger: false
+                                  }
+                                },
+                                model: {
+                                  value: _vm.nomina.pasivos.faltante,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.nomina.pasivos,
+                                      "faltante",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "nomina.pasivos.faltante"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-6" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "comienza_en" }
+                            },
+                            [_vm._v("Devolución")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form-control-wrap" },
+                            [
+                              _c("VueNumberFormat", {
+                                staticClass:
+                                  "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                attrs: {
+                                  disabled: "",
+                                  name: "devolucion",
+                                  id: "devolucion",
+                                  options: {
+                                    precision: 2,
+                                    prefix: "",
+                                    suffix: " MXN",
+                                    decimal: ".",
+                                    thousand: ",",
+                                    acceptNegative: false,
+                                    isInteger: false
+                                  }
+                                },
+                                model: {
+                                  value: _vm.nomina.pasivos.devolucion,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.nomina.pasivos,
+                                      "devolucion",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "nomina.pasivos.devolucion"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-6" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "comienza_en" }
+                            },
+                            [_vm._v("Descuento por falta")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form-control-wrap" },
+                            [
+                              _c("VueNumberFormat", {
+                                staticClass:
+                                  "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                attrs: {
+                                  name: "descuento_por_falta",
+                                  id: "descuento_por_falta",
+                                  options: {
+                                    precision: 2,
+                                    prefix: "",
+                                    suffix: " MXN",
+                                    decimal: ".",
+                                    thousand: ",",
+                                    acceptNegative: false,
+                                    isInteger: false
+                                  }
+                                },
+                                model: {
+                                  value: _vm.nomina.pasivos.descuento_por_falta,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.nomina.pasivos,
+                                      "descuento_por_falta",
+                                      $$v
+                                    )
+                                  },
+                                  expression:
+                                    "nomina.pasivos.descuento_por_falta"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("h2", [_vm._v("Otros descuentos")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-5" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-label",
+                                attrs: { for: "comienza_en" }
+                              },
+                              [_vm._v("Cantidad")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "form-control-wrap" },
+                              [
+                                _c("VueNumberFormat", {
+                                  staticClass:
+                                    "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                  attrs: {
+                                    name: "cantidad",
+                                    id: "cantidad",
+                                    options: {
+                                      precision: 2,
+                                      prefix: "",
+                                      suffix: " MXN",
+                                      decimal: ".",
+                                      thousand: ",",
+                                      acceptNegative: false,
+                                      isInteger: false
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.actual_otro_descuento.cantidad,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.actual_otro_descuento,
+                                        "cantidad",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "actual_otro_descuento.cantidad"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-5" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-label",
+                                attrs: { for: "comienza_en" }
+                              },
+                              [_vm._v("Descripción")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.actual_otro_descuento.descripcion,
+                                  expression:
+                                    "actual_otro_descuento.descripcion"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                name: "descripcion",
+                                id: "descripcion",
+                                type: "text"
+                              },
+                              domProps: {
+                                value: _vm.actual_otro_descuento.descripcion
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.actual_otro_descuento,
+                                    "descripcion",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-2" }, [
+                            _c("label", {
+                              staticClass: "form-label",
+                              attrs: { for: "comienza_en" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: { type: "button" },
+                                on: { click: _vm.agregarOtroDescuento }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                        +\n                                    "
+                                )
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12" }, [
+                        _c(
+                          "table",
+                          { staticClass: "table" },
+                          [
+                            _c("thead", { staticClass: "thead-dark" }, [
+                              _c("tr", [
+                                _c("th", { attrs: { scope: "col" } }, [
+                                  _vm._v("#")
+                                ]),
+                                _vm._v(" "),
+                                _c("th", { attrs: { scope: "col" } }, [
+                                  _vm._v("Cantidad")
+                                ]),
+                                _vm._v(" "),
+                                _c("th", { attrs: { scope: "col" } }, [
+                                  _vm._v("Descripción")
+                                ])
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.descuento_extra, function(
+                              otro_descuento,
+                              index
+                            ) {
+                              return _c("tbody", [
+                                _c("tr", [
+                                  _c("th", { attrs: { scope: "row" } }, [
+                                    _vm._v(_vm._s(index + 1))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(otro_descuento.cantidad))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(otro_descuento.descripcion))
+                                  ])
+                                ])
+                              ])
+                            })
+                          ],
+                          2
+                        )
+                      ])
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-6" }, [
-                    _c("h4", { staticStyle: { color: "red" } }, [
-                      _vm._v(
-                        "Total: " +
-                          _vm._s(_vm.$moneyFormat(_vm.nomina.total_pasivos))
-                      )
+                  _c("tab-content", { attrs: { title: "Ticket" } }, [
+                    _c("div", { staticClass: "row mx-5" }, [
+                      _c("div", { staticClass: "col-6" }, [
+                        _c("h3", [_vm._v("Percepciónes")]),
+                        _vm._v(" "),
+                        _c("table", { staticClass: "table" }, [
+                          _c("thead", { staticClass: "thead-dark" }, [
+                            _c("tr", [
+                              _c("th", { attrs: { scope: "col" } }, [
+                                _vm._v("Concepto")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { attrs: { scope: "col" } }, [
+                                _vm._v("Cantidad")
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("tbody", [
+                            _c("tr", [
+                              _c("td", [_vm._v(" Sueldo base:")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.activos.sueldo_base
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v(" Ayuda de transporte:")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.activos.ayuda_transporte
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v(" Ayuda de despensa:")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.activos.ayuda_despensa
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v(" Comisión:")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.activos.comision
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [
+                                _vm._v(" Bono de servicio al cliente:")
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.activos.bono_servicio_cliente
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v(" Bono personal:")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.activos.bono_personal
+                                    )
+                                  )
+                                )
+                              ])
+                            ])
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-6" }, [
+                        _c("h3", [_vm._v("Deducciónes")]),
+                        _vm._v(" "),
+                        _c("table", { staticClass: "table" }, [
+                          _c("thead", { staticClass: "thead-dark" }, [
+                            _c("tr", [
+                              _c("th", { attrs: { scope: "col" } }, [
+                                _vm._v("Concepto")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { attrs: { scope: "col" } }, [
+                                _vm._v("Cantidad")
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("tbody", [
+                            _c("tr", [
+                              _c("td", [_vm._v(" infonavit")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.pasivos.infonavit
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v(" prestamo")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.pasivos.prestamo
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v(" faltante")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.pasivos.faltante
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v(" devolucion")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.pasivos.devolucion
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v(" descuento_por_falta")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.pasivos.descuento_por_falta
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [_vm._v(" descuento_extra")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$moneyFormat(
+                                      _vm.nomina.pasivos.descuento_extra_total
+                                    )
+                                  )
+                                )
+                              ])
+                            ])
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row mx-5" }, [
+                      _c("div", { staticClass: "col-6" }, [
+                        _c("h4", { staticStyle: { color: "lawngreen" } }, [
+                          _vm._v(
+                            "Total: " +
+                              _vm._s(_vm.$moneyFormat(_vm.nomina.total_activos))
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-6" }, [
+                        _c("h4", { staticStyle: { color: "red" } }, [
+                          _vm._v(
+                            "Total: " +
+                              _vm._s(_vm.$moneyFormat(_vm.nomina.total_pasivos))
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row mx-5" }, [
+                      _c("div", { staticClass: "col-6" }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-6" }, [
+                        _c("h3", [
+                          _vm._v(
+                            "Total: " +
+                              _vm._s(_vm.$moneyFormat(_vm.nomina.total))
+                          )
+                        ])
+                      ])
                     ])
                   ])
-                ]),
-                _vm._v(" "),
-                _c("hr"),
-                _vm._v(" "),
-                _c("div", { staticClass: "row mx-5" }, [
-                  _c("div", { staticClass: "col-6" }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-6" }, [
-                    _c("h3", [
-                      _vm._v(
-                        "Total: " + _vm._s(_vm.$moneyFormat(_vm.nomina.total))
-                      )
-                    ])
-                  ])
-                ])
-              ])
+                ],
+                1
+              )
             ],
             1
           )
         ],
         1
-      )
-    ],
-    1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-footer" })
+    ]
   )
 }
 var staticRenderFns = []
@@ -75877,7 +75990,7 @@ var render = function() {
                                           staticClass: "btn btn-dim btn-info",
                                           on: {
                                             click: function($event) {
-                                              return _vm.deleteNominas(
+                                              return _vm.imprimirNominas(
                                                 nomina.id
                                               )
                                             }
@@ -104667,6 +104780,11 @@ var Ziggy = {
       "uri": "mes-nominas\/{id}\/meta-maxima\/{cantidad}",
       "methods": ["POST"],
       "domain": null
+    },
+    "nominas.imprimir": {
+      "uri": "nominas\/{id}\/imprimir",
+      "methods": ["GET", "HEAD"],
+      "domain": null
     }
   },
   baseUrl: 'http://galletas.test/',
@@ -106412,8 +106530,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/hugo/Dazug/galletas/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/hugo/Dazug/galletas/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/hugo/Dazug/github/xd/galletas/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/hugo/Dazug/github/xd/galletas/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -1,22 +1,38 @@
 <template>
     <div>
-        <date-picker v-model="month" type="month" placeholder="Mes"
-                     value-type="format" format="YYYY-MM"></date-picker>
+        <div class="row">
+            <div class="col-6">
+                <date-picker v-model="month" type="month" placeholder="Mes"
+                             value-type="format" format="YYYY-MM"></date-picker>
+            </div>
+            <div class="col-6 align-items-end">
+                <button v-if="month" class="btn btn-outline-secondary"
+                        @click="$modal.show('bono-anual-modal', {
+                                    mes: month
+                                })"
+                >Definir % de
+                    {{ this.$moment(this.month).format('YYYY') }}
+                </button>
+                <button v-if="nominas.length === 4" class="btn btn-outline-secondary"
+                        @click="$modal.show('meta-mensual-modal', {
+                                   mes_nomina_id: mes_nomina_id, mes: month
+                                })"
+                >Bono mensual
+                </button>
+                <button v-if="month" @click="$modal.show('meta-mensual-modal', {
+                                   mes_nomina_id: mes_nomina_id, mes: month
+                                })" class="btn btn-outline-secondary">Metas mensuales
+                </button>
+                <button class="btn btn-outline-secondary"
+                        @click="$modal.show('nomina-modal', {
+                                    mes_nomina_id: mes_nomina_id
+                                })" v-if="month && nominas.length < 4">
+                    Nueva nomina
+                </button>
+            </div>
+        </div>
         <div class="table" v-if="month">
-
             <div v-if="nominas.length > 0">
-
-                <meta-mensual v-if="mes_nomina_id" :mes_nomina_id="mes_nomina_id">
-                    <div slot="buttons">
-                        <button class="btn btn-outline-secondary"
-                                @click="$modal.show('nomina-modal', {
-                                    reset: true, mes_nomina_id: mes_nomina_id, mes: month
-                                })" v-if="nominas.length < 4">
-                            Nueva nomina
-                        </button>
-                    </div>
-                </meta-mensual>
-
                 <div class="row">
                     <template v-for="(nomina, index) in nominas">
                         <div class="col-12 col-xl-6 my-3">
@@ -62,7 +78,7 @@
                 </div>
             </div>
             <div class="align-items-center text-center" v-else>
-                <meta-mensual v-if="mes_nomina_id" :mes_nomina_id="mes_nomina_id"></meta-mensual>
+                <!--<meta-mensual v-if="mes_nomina_id" :mes_nomina_id="mes_nomina_id"></meta-mensual>-->
                 <img :src="'../../img/empty.svg'" style="width: 20vw">
                 <h3 class="mt-3">No has registrado aún ninguna nomina para este mes</h3>
                 <button class="btn btn-outline-secondary"
@@ -72,8 +88,16 @@
             </div>
 
             <nominas-modal @created="reloadTable"></nominas-modal>
+            <meta-mensual-modal></meta-mensual-modal>
+            <bono-anual-modal></bono-anual-modal>
             <v-dialog/>
             <br>
+        </div>
+        <div v-else>
+            <div class="align-items-center text-center">
+                <img :src="'../../img/empty.svg'" style="width: 20vw">
+                <h3 class="mt-3">Seleccióna un mes para comenzar</h3>
+            </div>
         </div>
     </div>
 </template>
@@ -85,14 +109,16 @@ import {Spanish} from "flatpickr/dist/l10n/es.js";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/es.js';
-import MetaMensual from "./MetaMensual";
+import MetaMensualModal from "./MetaMensualModal";
+import BonoAnualModal from "./BonoAnualModal";
 
 export default {
     name: "NominasTable",
     components: {
-        MetaMensual,
+        MetaMensualModal,
         NominasModal,
-        DatePicker
+        DatePicker,
+        BonoAnualModal
     },
     data() {
         return {
@@ -131,7 +157,7 @@ export default {
             this.obtenerNominas();
         },
         editNominas(id) {
-            this.$modal.show("nomina-modal", {id: id});
+            this.$modal.show("nomina-modal", {id: id, edit: true});
         },
         showNominas(id) {
             this.$modal.show("nomina-modal", {id: id, show: true});

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rutas;
 use App\User;
 use App\venta_x_ruta;
 use Illuminate\Http\Request;
@@ -174,17 +175,18 @@ class UsuarioController extends Controller
         return auth()->user();
     }
 
-    public function obtenerVentaYDevolucionesMensuales($rango_fechas)
+    public function obtenerVentaYDevolucionesMensuales($ruta_id, $rango_fechas)
     {
+        $ruta = Rutas::findOrFail($ruta_id);
         $fechas = explode(" to ", $rango_fechas);
         if (count($fechas) > 1) {
-            $total_ventas = auth()->user()->ruta->venta_x_ruta->where('tipo_movi', venta_x_ruta::VENTA)->whereBetween('created_at', [$fechas[0], $fechas[1]])->sum('total');
-            $total_devoluciones = auth()->user()->ruta->venta_x_ruta->where('tipo_movi', venta_x_ruta::DEVOLUCION)->whereBetween('created_at', [$fechas[0], $fechas[1]])->sum('total');
+            $total_ventas = $ruta->venta_x_ruta->where('tipo_movi', venta_x_ruta::VENTA)->whereBetween('created_at', [$fechas[0], $fechas[1]])->sum('total');
+            $total_devoluciones = $ruta->venta_x_ruta->where('tipo_movi', venta_x_ruta::DEVOLUCION)->whereBetween('created_at', [$fechas[0], $fechas[1]])->sum('total');
             $devoluciones = $this->calcularBonoDevoluciones($total_ventas, $total_devoluciones);
 
         } else {
-            $total_ventas = auth()->user()->ruta->venta_x_ruta()->where('tipo_movi', venta_x_ruta::VENTA)->whereDay('created_at', $fechas[0])->sum('total');
-            $total_devoluciones = auth()->user()->ruta->venta_x_ruta()->where('tipo_movi', venta_x_ruta::DEVOLUCION)->whereDay('created_at', $fechas[0])->sum('total');
+            $total_ventas = $ruta->venta_x_ruta()->where('tipo_movi', venta_x_ruta::VENTA)->whereDay('created_at', $fechas[0])->sum('total');
+            $total_devoluciones = $ruta->venta_x_ruta()->where('tipo_movi', venta_x_ruta::DEVOLUCION)->whereDay('created_at', $fechas[0])->sum('total');
             $devoluciones = $this->calcularBonoDevoluciones($total_ventas, $total_devoluciones);
         }
 

@@ -429,12 +429,21 @@
             <td style="font-size: 0.9em">${{number_format($data['nomina']['total_pasivos'], 2)}}</td>
         </tr>
         <tr>
-            <td colspan="2" style="text-transform: uppercase; font-size: 0.8em">{{(new \NumberToWords\NumberToWords)->getNumberTransformer('es')->toWords($data['nomina']['total']) }}</td>
+            <td colspan="2"
+                style="text-transform: uppercase; font-size: 0.8em">{{(new \NumberToWords\NumberToWords)->getNumberTransformer('es')->toWords($data['nomina']['total']) }}</td>
             <td colspan="2" style="font-size: 0.9em">TOTAL</td>
             <td style="font-size: 0.9em">${{number_format($data['nomina']['total'], 2)}}</td>
         </tr>
         </tfoot>
     </table>
+
+    <div style="padding-top: 200px; color: #000">
+        <div style="text-align: center">
+            ___________________________
+            <br>
+            <b>{{$data['user_data']['user_name']}}</b>
+        </div>
+    </div>
 
 
 </main>

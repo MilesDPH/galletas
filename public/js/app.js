@@ -2224,10 +2224,76 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "BonoAnualModal",
+  data: function data() {
+    return {
+      bono_anual: {
+        bono: "",
+        year: ""
+      }
+    };
+  },
+  methods: {
+    beforeOpen: function beforeOpen(event) {
+      var _this = this;
+
+      this.bono_anual.year = this.$moment(event.params.mes).format('YYYY');
+      axios.get(this.$route('bono-anuales.show', this.bono_anual.year)).then(function (response) {
+        _this.bono_anual = response.data;
+      });
+    },
+    afterDone: function afterDone() {
+      this.$modal.hide('bono-anual-modal');
+      this.$toast.success('Porcentaje de bono anual cambiado!');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2251,15 +2317,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "MetaMensual",
-  props: {
-    mes_nomina_id: {
-      required: true,
-      "default": 0
-    }
-  },
+  name: "MetaMensualModal",
   data: function data() {
     return {
       meta_minima: 0,
@@ -2267,18 +2341,24 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    beforeOpen: function beforeOpen(event) {
+      this.mes_nomina_id = event.params.mes_nomina_id;
+      this.obtenerMetas();
+    },
     cambiarMetaMin: lodash__WEBPACK_IMPORTED_MODULE_0___default.a.debounce(function () {
       this.cambiarMetaMinima();
     }, 500),
+    cambiarMetas: function cambiarMetas() {
+      this.cambiarMetaMinima();
+    },
     cambiarMetaMinima: function cambiarMetaMinima() {
       var _this = this;
 
       axios.post(this.$route('mes-nomina.meta-minima', {
-        id: this.$props.mes_nomina_id,
+        id: this.mes_nomina_id,
         cantidad: this.meta_minima
       })).then(function (response) {
-        _this.meta_minima = response.data.meta_minima;
-        _this.meta_maxima = response.data.meta_maxima;
+        _this.cambiarMetaMaxima();
       });
     },
     cambiarMetaMax: lodash__WEBPACK_IMPORTED_MODULE_0___default.a.debounce(function () {
@@ -2288,24 +2368,25 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.post(this.$route('mes-nomina.meta-maxima', {
-        id: this.$props.mes_nomina_id,
+        id: this.mes_nomina_id,
         cantidad: this.meta_maxima
       })).then(function (response) {
         _this2.meta_minima = response.data.meta_minima;
         _this2.meta_maxima = response.data.meta_maxima;
+
+        _this2.$modal.hide('meta-mensual-modal');
+
+        _this2.$toast.success('Metas cambiadas con exito');
       });
     },
     obtenerMetas: function obtenerMetas() {
       var _this3 = this;
 
-      axios.get(this.$route('mes-nomina.metas', this.$props.mes_nomina_id)).then(function (response) {
+      axios.get(this.$route('mes-nomina.metas', this.mes_nomina_id)).then(function (response) {
         _this3.meta_minima = response.data.meta_minima;
         _this3.meta_maxima = response.data.meta_maxima;
       });
     }
-  },
-  mounted: function mounted() {
-    this.obtenerMetas();
   }
 });
 
@@ -2326,6 +2407,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_form_wizard__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_form_wizard__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue_form_wizard_dist_vue_form_wizard_min_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-form-wizard/dist/vue-form-wizard.min.css */ "./node_modules/vue-form-wizard/dist/vue-form-wizard.min.css");
 /* harmony import */ var vue_form_wizard_dist_vue_form_wizard_min_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_form_wizard_dist_vue_form_wizard_min_css__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2790,6 +2904,8 @@ var default_fields = {
   },
   data: function data() {
     return {
+      tiene_bono_mensual: false,
+      edit: false,
       venta_semanal: 0,
       descuento_extra: [],
       actual_otro_descuento: {
@@ -2890,6 +3006,7 @@ var default_fields = {
     beforeOpen: function beforeOpen(event) {
       var _this3 = this;
 
+      this.edit = event.params.edit;
       this.nomina.mes_nomina_id = event.params.mes_nomina_id;
       this.mes = this.$moment(event.params.mes).format('YYYY-MM-DD');
       this.obtenerMetaMes(this.nomina.mes_nomina_id);
@@ -2977,7 +3094,10 @@ var default_fields = {
 
       console.log('hola');
       this.nomina.mes = this.mes;
-      axios.get(this.$route('users.venta-devoluciones-mensual', this.mes)).then(function (response) {
+      axios.get(this.$route('users.venta-devoluciones-mensual', {
+        rango_fechas: this.mes,
+        ruta_id: this.ruta_id
+      })).then(function (response) {
         _this4.venta_semanal = response.data.total_ventas;
         _this4.nomina.activos.bono_devolucion = response.data.devoluciones.activo_devoluciones;
         _this4.nomina.pasivos.devolucion = response.data.devoluciones.pasivo_devoluciones;
@@ -3009,7 +3129,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vue2_datepicker_locale_es_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue2-datepicker/locale/es.js */ "./node_modules/vue2-datepicker/locale/es.js");
 /* harmony import */ var vue2_datepicker_locale_es_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker_locale_es_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _MetaMensual__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MetaMensual */ "./resources/js/components/Rutas/Nominas/MetaMensual.vue");
+/* harmony import */ var _MetaMensualModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MetaMensualModal */ "./resources/js/components/Rutas/Nominas/MetaMensualModal.vue");
+/* harmony import */ var _BonoAnualModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./BonoAnualModal */ "./resources/js/components/Rutas/Nominas/BonoAnualModal.vue");
 //
 //
 //
@@ -3090,6 +3211,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -3099,9 +3245,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "NominasTable",
   components: {
-    MetaMensual: _MetaMensual__WEBPACK_IMPORTED_MODULE_5__["default"],
+    MetaMensualModal: _MetaMensualModal__WEBPACK_IMPORTED_MODULE_5__["default"],
     NominasModal: _NominasModal__WEBPACK_IMPORTED_MODULE_0__["default"],
-    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_2__["default"]
+    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_2__["default"],
+    BonoAnualModal: _BonoAnualModal__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   data: function data() {
     return {
@@ -3142,7 +3289,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     editNominas: function editNominas(id) {
       this.$modal.show("nomina-modal", {
-        id: id
+        id: id,
+        edit: true
       });
     },
     showNominas: function showNominas(id) {
@@ -74148,10 +74296,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=template&id=b9a2c16a&scoped=true&":
-/*!****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=template&id=b9a2c16a&scoped=true& ***!
-  \****************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=template&id=c57614aa&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=template&id=c57614aa&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -74164,70 +74312,270 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { staticClass: "row my-3" },
+    "modal",
+    {
+      staticClass: "pt-5 pb-5",
+      attrs: {
+        name: "bono-anual-modal",
+        height: "auto",
+        scrollable: true,
+        clickToClose: false,
+        width: "800"
+      },
+      on: { "before-open": _vm.beforeOpen }
+    },
     [
-      _c("div", { staticClass: "col-4" }, [
-        _c("label", { attrs: { for: "meta-minima" } }, [_vm._v("Meta minima")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.meta_minima,
-              expression: "meta_minima"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { id: "meta-minima", name: "meta-minima" },
-          domProps: { value: _vm.meta_minima },
-          on: {
-            input: [
-              function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.meta_minima = $event.target.value
+      _c(
+        "alv-form",
+        {
+          ref: "form",
+          attrs: {
+            action: _vm.$route("bono-anuales.show", this.bono_anual.year),
+            id: "nomina-create",
+            method: "POST",
+            spinner: true,
+            "data-object": _vm.bono_anual
+          },
+          on: { "after-done": _vm.afterDone }
+        },
+        [
+          _c("div", { staticClass: "modal-header bg-success" }, [
+            _c(
+              "h5",
+              {
+                staticClass: "modal-title",
+                staticStyle: { color: "#FFFFFF" },
+                attrs: { id: "exampleModalLabel" }
               },
-              _vm.cambiarMetaMin
-            ]
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-4" }, [
-        _c("label", { attrs: { for: "meta-maxima" } }, [_vm._v("Meta maxima")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.meta_maxima,
-              expression: "meta_maxima"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { id: "meta-maxima", name: "meta-maxima" },
-          domProps: { value: _vm.meta_maxima },
-          on: {
-            input: [
-              function($event) {
-                if ($event.target.composing) {
-                  return
+              [
+                _vm._v(
+                  "\n                Porcentaje de bono anual\n            "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "close",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.$modal.hide("bono-anual-modal")
+                  }
                 }
-                _vm.meta_maxima = $event.target.value
               },
-              _vm.cambiarMetaMax
-            ]
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _vm._t("buttons")
+              [
+                _c(
+                  "span",
+                  {
+                    staticClass: "text-white",
+                    attrs: { "aria-hidden": "true" }
+                  },
+                  [_vm._v("×")]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "row my-3 mx-5" }, [
+              _c("div", { staticClass: "col-6" }, [
+                _c("label", { attrs: { for: "meta-minima" } }, [
+                  _vm._v("Porcentaje de Bono Anual")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.bono_anual.bono,
+                      expression: "bono_anual.bono"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "bono_anual", name: "bono_anual" },
+                  domProps: { value: _vm.bono_anual.bono },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.bono_anual, "bono", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-footer" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-secondary",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("Guardar")]
+            )
+          ])
+        ]
+      )
     ],
-    2
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=template&id=d5b68c5c&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=template&id=d5b68c5c&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "modal",
+    {
+      staticClass: "pt-5 pb-5",
+      attrs: {
+        name: "meta-mensual-modal",
+        height: "auto",
+        scrollable: true,
+        clickToClose: false,
+        width: "800"
+      },
+      on: { "before-open": _vm.beforeOpen }
+    },
+    [
+      _c("div", { staticClass: "modal-header bg-success" }, [
+        _c(
+          "h5",
+          {
+            staticClass: "modal-title",
+            staticStyle: { color: "#FFFFFF" },
+            attrs: { id: "exampleModalLabel" }
+          },
+          [_vm._v("\n            Nóminas\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "close",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.$modal.hide("meta-mensual-modal")
+              }
+            }
+          },
+          [
+            _c(
+              "span",
+              { staticClass: "text-white", attrs: { "aria-hidden": "true" } },
+              [_vm._v("×")]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-content" }, [
+        _c(
+          "div",
+          { staticClass: "row my-3 mx-5" },
+          [
+            _c("div", { staticClass: "col-6" }, [
+              _c("label", { attrs: { for: "meta-minima" } }, [
+                _vm._v("Meta minima")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.meta_minima,
+                    expression: "meta_minima"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "meta-minima", name: "meta-minima" },
+                domProps: { value: _vm.meta_minima },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.meta_minima = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-6" }, [
+              _c("label", { attrs: { for: "meta-maxima" } }, [
+                _vm._v("Meta maxima")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.meta_maxima,
+                    expression: "meta_maxima"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "meta-maxima", name: "meta-maxima" },
+                domProps: { value: _vm.meta_maxima },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.meta_maxima = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _vm._t("buttons")
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-footer" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-outline-secondary",
+            on: {
+              click: function($event) {
+                return _vm.cambiarMetas()
+              }
+            }
+          },
+          [_vm._v("Guardar")]
+        )
+      ])
+    ]
   )
 }
 var staticRenderFns = []
@@ -74399,6 +74747,42 @@ var render = function() {
                   ])
                 },
                 [
+                  _vm.edit
+                    ? _c(
+                        "div",
+                        {
+                          staticClass:
+                            "alert alert-warning alert-dismissible fade show",
+                          attrs: { role: "alert" }
+                        },
+                        [
+                          _c("strong", [
+                            _c("i", { staticClass: "fa fa-warning" }),
+                            _vm._v(" ATENCIÓN: ")
+                          ]),
+                          _vm._v(
+                            " Estás editando una nómina,\n                    probablemente no quieras estar haciendo esto\n                    "
+                          ),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "close",
+                              attrs: {
+                                type: "button",
+                                "data-dismiss": "alert",
+                                "aria-label": "Close"
+                              }
+                            },
+                            [
+                              _c("span", { attrs: { "aria-hidden": "true" } }, [
+                                _vm._v("×")
+                              ])
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("tab-content", { attrs: { title: "Metas de mes" } }, [
                     _c("div", { staticClass: "row g-4 align-center" }, [
                       _c("div", { staticClass: "col-12" }, [
@@ -74637,7 +75021,11 @@ var render = function() {
                                   staticClass: "form-label",
                                   attrs: { for: "formatted_updated_at" }
                                 },
-                                [_vm._v("Ultima de actualización:")]
+                                [
+                                  _vm._v(
+                                    "Ultima de\n                                    actualización:"
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _c("div", { staticClass: "form-control-wrap" }, [
@@ -75040,6 +75428,77 @@ var render = function() {
                                       )
                                     },
                                     expression: "nomina.activos.bono_devolucion"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-6" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-6" }, [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "form-label",
+                                    attrs: { for: "comienza_en" }
+                                  },
+                                  [_vm._v("Bono mensual")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-6" },
+                                [
+                                  _c("toggle-button", {
+                                    model: {
+                                      value: _vm.tiene_bono_mensual,
+                                      callback: function($$v) {
+                                        _vm.tiene_bono_mensual = $$v
+                                      },
+                                      expression: "tiene_bono_mensual"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "form-control-wrap" },
+                              [
+                                _c("VueNumberFormat", {
+                                  staticClass:
+                                    "form-control w-full border border-gray-200 rounded py-1 px-1 mb-3",
+                                  attrs: {
+                                    name: "bono_mensual",
+                                    id: "bono_mensual",
+                                    disabled: !_vm.tiene_bono_mensual,
+                                    options: {
+                                      precision: 2,
+                                      prefix: "",
+                                      suffix: " MXN",
+                                      decimal: ".",
+                                      thousand: ",",
+                                      acceptNegative: false,
+                                      isInteger: false
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.nomina.activos.bono_mensual,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.nomina.activos,
+                                        "bono_mensual",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "nomina.activos.bono_mensual"
                                   }
                                 })
                               ],
@@ -75760,313 +76219,320 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("date-picker", {
-        attrs: {
-          type: "month",
-          placeholder: "Mes",
-          "value-type": "format",
-          format: "YYYY-MM"
-        },
-        model: {
-          value: _vm.month,
-          callback: function($$v) {
-            _vm.month = $$v
-          },
-          expression: "month"
-        }
-      }),
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-6" },
+        [
+          _c("date-picker", {
+            attrs: {
+              type: "month",
+              placeholder: "Mes",
+              "value-type": "format",
+              format: "YYYY-MM"
+            },
+            model: {
+              value: _vm.month,
+              callback: function($$v) {
+                _vm.month = $$v
+              },
+              expression: "month"
+            }
+          })
+        ],
+        1
+      ),
       _vm._v(" "),
-      _vm.month
-        ? _c(
-            "div",
-            { staticClass: "table" },
-            [
-              _vm.nominas.length > 0
-                ? _c(
+      _c("div", { staticClass: "col-6 align-items-end" }, [
+        _vm.month
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-secondary",
+                on: {
+                  click: function($event) {
+                    return _vm.$modal.show("bono-anual-modal", {
+                      mes: _vm.month
+                    })
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "Definir % de\n                " +
+                    _vm._s(this.$moment(this.month).format("YYYY")) +
+                    "\n            "
+                )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.nominas.length === 4
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-secondary",
+                on: {
+                  click: function($event) {
+                    return _vm.$modal.show("meta-mensual-modal", {
+                      mes_nomina_id: _vm.mes_nomina_id,
+                      mes: _vm.month
+                    })
+                  }
+                }
+              },
+              [_vm._v("Bono mensual\n            ")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.month
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-secondary",
+                on: {
+                  click: function($event) {
+                    return _vm.$modal.show("meta-mensual-modal", {
+                      mes_nomina_id: _vm.mes_nomina_id,
+                      mes: _vm.month
+                    })
+                  }
+                }
+              },
+              [_vm._v("Metas mensuales\n            ")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.month && _vm.nominas.length < 4
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-secondary",
+                on: {
+                  click: function($event) {
+                    return _vm.$modal.show("nomina-modal", {
+                      mes_nomina_id: _vm.mes_nomina_id
+                    })
+                  }
+                }
+              },
+              [_vm._v("\n                Nueva nomina\n            ")]
+            )
+          : _vm._e()
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.month
+      ? _c(
+          "div",
+          { staticClass: "table" },
+          [
+            _vm.nominas.length > 0
+              ? _c("div", [
+                  _c(
                     "div",
+                    { staticClass: "row" },
                     [
-                      _vm.mes_nomina_id
-                        ? _c(
-                            "meta-mensual",
-                            { attrs: { mes_nomina_id: _vm.mes_nomina_id } },
-                            [
+                      _vm._l(_vm.nominas, function(nomina, index) {
+                        return [
+                          _c("div", { staticClass: "col-12 col-xl-6 my-3" }, [
+                            _c("div", { staticClass: "card" }, [
                               _c(
                                 "div",
-                                { attrs: { slot: "buttons" }, slot: "buttons" },
+                                {
+                                  staticClass:
+                                    "card-header bg-success text-white"
+                                },
                                 [
-                                  _vm.nominas.length < 4
-                                    ? _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-outline-secondary",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.$modal.show(
-                                                "nomina-modal",
-                                                {
-                                                  reset: true,
-                                                  mes_nomina_id:
-                                                    _vm.mes_nomina_id,
-                                                  mes: _vm.month
-                                                }
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                        Nueva nomina\n                    "
-                                          )
-                                        ]
-                                      )
-                                    : _vm._e()
-                                ]
-                              )
-                            ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "row" },
-                        [
-                          _vm._l(_vm.nominas, function(nomina, index) {
-                            return [
-                              _c(
-                                "div",
-                                { staticClass: "col-12 col-xl-6 my-3" },
-                                [
-                                  _c("div", { staticClass: "card" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "card-header bg-success text-white"
-                                      },
-                                      [
-                                        _c(
-                                          "h5",
-                                          { staticStyle: { color: "#fff" } },
-                                          [
-                                            _vm._v(
-                                              "Semana\n                                " +
-                                                _vm._s(
-                                                  index +
-                                                    1 +
-                                                    ": " +
-                                                    _vm
-                                                      .$moment(
-                                                        nomina.comienza_en
-                                                      )
-                                                      .format("DD/MM/YYYY") +
-                                                    " - " +
-                                                    _vm
-                                                      .$moment(
-                                                        nomina.finaliza_en
-                                                      )
-                                                      .format("DD/MM/YYYY")
-                                                )
-                                            )
-                                          ]
+                                  _c("h5", { staticStyle: { color: "#fff" } }, [
+                                    _vm._v(
+                                      "Semana\n                                " +
+                                        _vm._s(
+                                          index +
+                                            1 +
+                                            ": " +
+                                            _vm
+                                              .$moment(nomina.comienza_en)
+                                              .format("DD/MM/YYYY") +
+                                            " - " +
+                                            _vm
+                                              .$moment(nomina.finaliza_en)
+                                              .format("DD/MM/YYYY")
                                         )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "card-body" }, [
-                                      _c("div", { staticClass: "row" }, [
-                                        _c("div", { staticClass: "col-4" }, [
-                                          _vm._v("Percepciónes")
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-4" }),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-4" }, [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.$moneyFormat(
-                                                nomina.total_activos
-                                              )
-                                            )
-                                          )
-                                        ])
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "row" }, [
-                                        _c("div", { staticClass: "col-4" }, [
-                                          _vm._v("Deducciónes")
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-4" }),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-4" }, [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.$moneyFormat(
-                                                nomina.total_pasivos
-                                              )
-                                            )
-                                          )
-                                        ])
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("hr"),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "row" }, [
-                                        _vm._m(0, true),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-4" }),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-4" }, [
-                                          _c("b", [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.$moneyFormat(nomina.total)
-                                              )
-                                            )
-                                          ])
-                                        ])
-                                      ])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "card-footer" }, [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-dim btn-success",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.showNominas(nomina.id)
-                                            }
-                                          }
-                                        },
-                                        [_c("i", { staticClass: "las la-eye" })]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-dim btn-primary",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.editNominas(nomina.id)
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "las la-pencil-alt"
-                                          })
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-dim btn-danger",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.deleteNominas(
-                                                nomina.id
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "las la-trash"
-                                          })
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-dim btn-info",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.imprimirNominas(
-                                                nomina.id
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "las la-print"
-                                          })
-                                        ]
+                                    )
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "card-body" }, [
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col-4" }, [
+                                    _vm._v("Percepciónes")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-4" }),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-4" }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.$moneyFormat(nomina.total_activos)
+                                      )
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "row" }, [
+                                  _c("div", { staticClass: "col-4" }, [
+                                    _vm._v("Deducciónes")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-4" }),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-4" }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.$moneyFormat(nomina.total_pasivos)
+                                      )
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("hr"),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "row" }, [
+                                  _vm._m(0, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-4" }),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-4" }, [
+                                    _c("b", [
+                                      _vm._v(
+                                        _vm._s(_vm.$moneyFormat(nomina.total))
                                       )
                                     ])
                                   ])
-                                ]
-                              )
-                            ]
-                          })
-                        ],
-                        2
-                      )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "card-footer" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-dim btn-success",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.showNominas(nomina.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "las la-eye" })]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-dim btn-primary",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.editNominas(nomina.id)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "las la-pencil-alt"
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-dim btn-danger",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deleteNominas(nomina.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "las la-trash" })]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-dim btn-info",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.imprimirNominas(nomina.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "las la-print" })]
+                                )
+                              ])
+                            ])
+                          ])
+                        ]
+                      })
                     ],
-                    1
+                    2
                   )
-                : _c(
-                    "div",
-                    { staticClass: "align-items-center text-center" },
-                    [
-                      _vm.mes_nomina_id
-                        ? _c("meta-mensual", {
-                            attrs: { mes_nomina_id: _vm.mes_nomina_id }
+                ])
+              : _c("div", { staticClass: "align-items-center text-center" }, [
+                  _c("img", {
+                    staticStyle: { width: "20vw" },
+                    attrs: { src: "../../img/empty.svg" }
+                  }),
+                  _vm._v(" "),
+                  _c("h3", { staticClass: "mt-3" }, [
+                    _vm._v("No has registrado aún ninguna nomina para este mes")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-secondary",
+                      on: {
+                        click: function($event) {
+                          return _vm.$modal.show("nomina-modal", {
+                            reset: true,
+                            mes_nomina_id: _vm.mes_nomina_id,
+                            mes: _vm.month
                           })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("img", {
-                        staticStyle: { width: "20vw" },
-                        attrs: { src: "../../img/empty.svg" }
-                      }),
-                      _vm._v(" "),
-                      _c("h3", { staticClass: "mt-3" }, [
-                        _vm._v(
-                          "No has registrado aún ninguna nomina para este mes"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-outline-secondary",
-                          on: {
-                            click: function($event) {
-                              return _vm.$modal.show("nomina-modal", {
-                                reset: true,
-                                mes_nomina_id: _vm.mes_nomina_id,
-                                mes: _vm.month
-                              })
-                            }
-                          }
-                        },
-                        [_vm._v("\n                Nueva nomina\n            ")]
-                      )
-                    ],
-                    1
-                  ),
-              _vm._v(" "),
-              _c("nominas-modal", { on: { created: _vm.reloadTable } }),
-              _vm._v(" "),
-              _c("v-dialog"),
-              _vm._v(" "),
-              _c("br")
-            ],
-            1
-          )
-        : _vm._e()
-    ],
-    1
-  )
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Nueva nomina\n            ")]
+                  )
+                ]),
+            _vm._v(" "),
+            _c("nominas-modal", { on: { created: _vm.reloadTable } }),
+            _vm._v(" "),
+            _c("meta-mensual-modal"),
+            _vm._v(" "),
+            _c("bono-anual-modal"),
+            _vm._v(" "),
+            _c("v-dialog"),
+            _vm._v(" "),
+            _c("br")
+          ],
+          1
+        )
+      : _c("div", [
+          _c("div", { staticClass: "align-items-center text-center" }, [
+            _c("img", {
+              staticStyle: { width: "20vw" },
+              attrs: { src: "../../img/empty.svg" }
+            }),
+            _vm._v(" "),
+            _c("h3", { staticClass: "mt-3" }, [
+              _vm._v("Seleccióna un mes para comenzar")
+            ])
+          ])
+        ])
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -103933,17 +104399,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Rutas/Nominas/MetaMensual.vue":
-/*!***************************************************************!*\
-  !*** ./resources/js/components/Rutas/Nominas/MetaMensual.vue ***!
-  \***************************************************************/
+/***/ "./resources/js/components/Rutas/Nominas/BonoAnualModal.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/Rutas/Nominas/BonoAnualModal.vue ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _MetaMensual_vue_vue_type_template_id_b9a2c16a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MetaMensual.vue?vue&type=template&id=b9a2c16a&scoped=true& */ "./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=template&id=b9a2c16a&scoped=true&");
-/* harmony import */ var _MetaMensual_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MetaMensual.vue?vue&type=script&lang=js& */ "./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=script&lang=js&");
+/* harmony import */ var _BonoAnualModal_vue_vue_type_template_id_c57614aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BonoAnualModal.vue?vue&type=template&id=c57614aa&scoped=true& */ "./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=template&id=c57614aa&scoped=true&");
+/* harmony import */ var _BonoAnualModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BonoAnualModal.vue?vue&type=script&lang=js& */ "./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -103953,50 +104419,119 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _MetaMensual_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _MetaMensual_vue_vue_type_template_id_b9a2c16a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _MetaMensual_vue_vue_type_template_id_b9a2c16a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _BonoAnualModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BonoAnualModal_vue_vue_type_template_id_c57614aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BonoAnualModal_vue_vue_type_template_id_c57614aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "b9a2c16a",
+  "c57614aa",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/Rutas/Nominas/MetaMensual.vue"
+component.options.__file = "resources/js/components/Rutas/Nominas/BonoAnualModal.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************!*\
-  !*** ./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************/
+/***/ "./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MetaMensual_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./MetaMensual.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MetaMensual_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BonoAnualModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./BonoAnualModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BonoAnualModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=template&id=b9a2c16a&scoped=true&":
-/*!**********************************************************************************************************!*\
-  !*** ./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=template&id=b9a2c16a&scoped=true& ***!
-  \**********************************************************************************************************/
+/***/ "./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=template&id=c57614aa&scoped=true&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=template&id=c57614aa&scoped=true& ***!
+  \*************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MetaMensual_vue_vue_type_template_id_b9a2c16a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./MetaMensual.vue?vue&type=template&id=b9a2c16a&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/MetaMensual.vue?vue&type=template&id=b9a2c16a&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MetaMensual_vue_vue_type_template_id_b9a2c16a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BonoAnualModal_vue_vue_type_template_id_c57614aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./BonoAnualModal.vue?vue&type=template&id=c57614aa&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/BonoAnualModal.vue?vue&type=template&id=c57614aa&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BonoAnualModal_vue_vue_type_template_id_c57614aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MetaMensual_vue_vue_type_template_id_b9a2c16a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BonoAnualModal_vue_vue_type_template_id_c57614aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Rutas/Nominas/MetaMensualModal.vue":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/Rutas/Nominas/MetaMensualModal.vue ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _MetaMensualModal_vue_vue_type_template_id_d5b68c5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MetaMensualModal.vue?vue&type=template&id=d5b68c5c&scoped=true& */ "./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=template&id=d5b68c5c&scoped=true&");
+/* harmony import */ var _MetaMensualModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MetaMensualModal.vue?vue&type=script&lang=js& */ "./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _MetaMensualModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _MetaMensualModal_vue_vue_type_template_id_d5b68c5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _MetaMensualModal_vue_vue_type_template_id_d5b68c5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "d5b68c5c",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Rutas/Nominas/MetaMensualModal.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MetaMensualModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./MetaMensualModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MetaMensualModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=template&id=d5b68c5c&scoped=true&":
+/*!***************************************************************************************************************!*\
+  !*** ./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=template&id=d5b68c5c&scoped=true& ***!
+  \***************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MetaMensualModal_vue_vue_type_template_id_d5b68c5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./MetaMensualModal.vue?vue&type=template&id=d5b68c5c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rutas/Nominas/MetaMensualModal.vue?vue&type=template&id=d5b68c5c&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MetaMensualModal_vue_vue_type_template_id_d5b68c5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MetaMensualModal_vue_vue_type_template_id_d5b68c5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -104662,7 +105197,7 @@ var Ziggy = {
       "domain": null
     },
     "users.venta-devoluciones-mensual": {
-      "uri": "users\/{rango_fechas}\/venta-devoluciones-mensual",
+      "uri": "rutas\/{ruta_id}\/venta-devoluciones-mensual\/{rango_fechas}",
       "methods": ["GET", "HEAD"],
       "domain": null
     },
@@ -104783,6 +105318,16 @@ var Ziggy = {
     },
     "nominas.imprimir": {
       "uri": "nominas\/{id}\/imprimir",
+      "methods": ["GET", "HEAD"],
+      "domain": null
+    },
+    "bono-anuales.store": {
+      "uri": "bono-anuales\/{year}",
+      "methods": ["POST"],
+      "domain": null
+    },
+    "bono-anuales.show": {
+      "uri": "bono-anuales\/{year}",
       "methods": ["GET", "HEAD"],
       "domain": null
     }

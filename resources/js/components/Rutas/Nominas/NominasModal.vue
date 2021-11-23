@@ -14,6 +14,13 @@
                       :data-object="nomina" @after-done="afterDone" @after-error="afterError" ref="form">
                 <form-wizard :color="'#007B5E'" :title="'Crear Nómina'" ref="wizard"
                              :subtitle="'Por favor completa los pasos para crear la nómina de esta ruta'">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="edit">
+                        <strong><i class="fa fa-warning"></i> ATENCIÓN: </strong> Estás editando una nómina,
+                        probablemente no quieras estar haciendo esto
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <tab-content title="Metas de mes">
                         <div class="row g-4 align-center">
                             <div class="col-12">
@@ -28,7 +35,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label" for="comienza_en">Ventas obtenidas en {{ this.mes }}</label>
+                                    <label class="form-label" for="comienza_en">Ventas obtenidas en {{
+                                            this.mes
+                                        }}</label>
                                     <div class="form-control-wrap">
                                         <input type="text" disabled class="form-control"
                                                id="venta_semanal" name="venta_semanal"
@@ -67,7 +76,8 @@
                                             <em class="icon ni ni-calender-date"></em>
                                         </div>
                                         <input type="text" class="form-control" id="formatted_created_at"
-                                               name="formatted_created_at" v-model="nomina.formatted_created_at" disabled>
+                                               name="formatted_created_at" v-model="nomina.formatted_created_at"
+                                               disabled>
                                     </div>
                                 </div>
                             </div>
@@ -75,13 +85,15 @@
                         <div class="row g-4 align-center" v-if="modalShow">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="formatted_updated_at">Ultima de actualización:</label>
+                                    <label class="form-label" for="formatted_updated_at">Ultima de
+                                        actualización:</label>
                                     <div class="form-control-wrap">
                                         <div class="form-icon form-icon-left">
                                             <em class="icon ni ni-calender-date"></em>
                                         </div>
                                         <input type="text" class="form-control" id="formatted_updated_at"
-                                               name="formatted_updated_at" v-model="nomina.formatted_updated_at" disabled>
+                                               name="formatted_updated_at" v-model="nomina.formatted_updated_at"
+                                               disabled>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +173,8 @@
                                     <div class="form-control-wrap">
                                         <VueNumberFormat
                                             class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.activos.bono_personal" name="bono_personal" id="bono_personal"
+                                            v-model="nomina.activos.bono_personal" name="bono_personal"
+                                            id="bono_personal"
                                             :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
                                         ></VueNumberFormat>
                                     </div>
@@ -177,6 +190,26 @@
                                             class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
                                             v-model="nomina.activos.bono_devolucion" name="bono_devolucion"
                                             id="bono_devolucion" disabled
+                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
+                                        ></VueNumberFormat>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="form-label" for="comienza_en">Bono mensual</label></div>
+                                        <div class="col-6">
+                                            <toggle-button v-model="tiene_bono_mensual"></toggle-button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-control-wrap">
+                                        <VueNumberFormat
+                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                            v-model="nomina.activos.bono_mensual" name="bono_mensual"
+                                            id="bono_mensual" :disabled="!tiene_bono_mensual"
                                             :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
                                         ></VueNumberFormat>
                                     </div>
@@ -465,6 +498,8 @@ export default {
     },
     data() {
         return {
+            tiene_bono_mensual: false,
+            edit: false,
             venta_semanal: 0,
             descuento_extra: [],
             actual_otro_descuento: {
@@ -550,6 +585,7 @@ export default {
             });
         },
         beforeOpen(event) {
+            this.edit = event.params.edit;
             this.nomina.mes_nomina_id = event.params.mes_nomina_id;
             this.mes = this.$moment(event.params.mes).format('YYYY-MM-DD');
             this.obtenerMetaMes(this.nomina.mes_nomina_id);
@@ -638,7 +674,10 @@ export default {
         mes() {
             console.log('hola');
             this.nomina.mes = this.mes;
-            axios.get(this.$route('users.venta-devoluciones-mensual', this.mes)).then(response => {
+            axios.get(this.$route('users.venta-devoluciones-mensual', {
+                rango_fechas: this.mes,
+                ruta_id: this.ruta_id
+            })).then(response => {
                 this.venta_semanal = response.data.total_ventas;
                 this.nomina.activos.bono_devolucion = response.data.devoluciones.activo_devoluciones;
                 this.nomina.pasivos.devolucion = response.data.devoluciones.pasivo_devoluciones;

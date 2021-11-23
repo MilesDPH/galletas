@@ -96,7 +96,7 @@ Route::post('/registrar-venta-ruta', 'VentasController@registrarVentaRuta')->nam
 Route::get('/pdfruta', 'VentasController@reporteRuta')->middleware('auth','tiporol');
 
 Route::get('users-auth', [UsuarioController::class, 'obtenerUsuarioAutenticado'])->name('users.auth');
-Route::get('users/{rango_fechas}/venta-devoluciones-mensual', [UsuarioController::class, 'obtenerVentaYDevolucionesMensuales'])->name('users.venta-devoluciones-mensual');
+Route::get('rutas/{ruta_id}/venta-devoluciones-mensual/{rango_fechas}', [UsuarioController::class, 'obtenerVentaYDevolucionesMensuales'])->name('users.venta-devoluciones-mensual');
 
 
 Route::get('/clear-cache', function () {
@@ -128,3 +128,4 @@ Route::get('/img/{filename}', function ($filename) {
 
 require __DIR__ . '/Rutas/ruta.php';
 require __DIR__ . '/Finanzas/Nomina/nomina.php';
+require __DIR__ . '/Finanzas/Nomina/bono_anuales.php';

@@ -270,16 +270,16 @@
             </div>
             <!-- ./ventas -->
 
-            <!-- Pagos -->
+            <!-- App -->
             <div class="col-xs-12 col-sm-6 col-md-4">
                 <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
                     <div class="mainflip">
                         <div class="frontside">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="{{ asset('img/pagos.png') }}" alt="card image"></p>
-                                    <h4 class="card-title">Pagos</h4>
-                                    <p class="card-text">Sección de Pagos.</p>
+                                    <p><img class=" img-fluid" src="{{ asset('img/applogo.png') }}" alt="card image"></p>
+                                    <h4 class="card-title">App</h4>
+                                    <p class="card-text">Sección de App.</p>
                                     <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
                                 </div>
                             </div>
@@ -287,13 +287,13 @@
                         <div class="backside">
                             <div class="card">
                                 <div class="card-body text-center mt-4">
-                                    <h4 class="card-title">Pagos</h4>
+                                    <h4 class="card-title">App</h4>
                                     <p class="card-text">Se pueden realizar los siguientes movimientos
                                     <ul>
-                                        <li>Pagos de las ganancias</li>
+                                        <li>Vista de datos capturados por la app</li>
                                     </ul>
                                     </p>
-                                    <a href="{{ url('pagos') }}">
+                                    <a href="{{ url('apprutavista') }}">
                                         <button class="btn btn-outline-primary btn-block">Ingresar</button>
                                     </a>
 
@@ -303,42 +303,8 @@
                     </div>
                 </div>
             </div>
-            <!-- ./pagos -->
+            <!-- ./app -->
 
-            <!-- Nómina -->
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="{{ asset('img/pagos.png') }}" alt="card image"></p>
-                                    <h4 class="card-title">Nómina</h4>
-                                    <p class="card-text">Sección de Nomina.</p>
-                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <h4 class="card-title">Nómina</h4>
-                                    <p class="card-text">Se pueden realizar los siguientes movimientos
-                                    <ul>
-                                        <li>Nómina a empleados</li>
-                                    </ul>
-                                    </p>
-                                    <a href="{{ route('rutas.nominas.view') }}">
-                                        <button class="btn btn-outline-primary btn-block">Ingresar</button>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ./pagos -->
         </div>
     </div>
 </section>

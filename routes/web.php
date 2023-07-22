@@ -106,7 +106,9 @@ Route::get('/clear-cache', function () {
 	echo Artisan::call('route:clear');
  });
 
-
+// Ruta para la vista de la app 
+Route::resource('apprutavista', 'appRutaVistaController')->middleware('auth','tiporol');
+Route::get('/appvista-data', 'appRutaVistaController@AppRutaVistaData')->name('appvista.data')->middleware('auth','tiporol');
 
 // route para imagenes
 Route::get('/img/{filename}', function ($filename) {

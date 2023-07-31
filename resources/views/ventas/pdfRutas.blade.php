@@ -59,10 +59,19 @@
         }
         table tr td{
             text-align: center;
-           
         }
-        table{
-            width: 100%;        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border-collapse: collapse;
+            border: 1px solid black; /* Set the border for table cells */
+            padding: 8px;
+        }
+        
     </style>
     </head>
     <body>
@@ -113,17 +122,17 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td style="background-color: darkgray">Total Vendido</td>
                             <td style="background-color: rgb(104, 187, 145)">{{ $tvendido }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td style="background-color: darkgray">Total Devuelto</td>
                             <td style="background-color: rgb(182, 68, 68)">{{ $tvuelta }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                             <td style="background-color: darkgray">Total Final</td>
                             <td style="background-color: rgb(91, 182, 68)">{{ $totalfinal }}</td>
                         </tr>

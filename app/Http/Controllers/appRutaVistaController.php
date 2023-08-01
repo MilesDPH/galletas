@@ -28,4 +28,15 @@ class appRutaVistaController extends Controller
         return DataTables::of($resultado)
             ->make(true);
     }
+
+    public function AppPedidos()
+    {
+        $resultado = DB::table('pedidos_app as p')
+                    ->select('p.cantidad_pedido', 'p.costo_pedido', 'p.total_pedido', 'r.nombre_ruta', 'pr.nombre', 'p.creado')
+                    ->join('rutas as r', 'p.id_ruta_pedido', '=', 'r.id')
+                    ->join('productos as pr', 'p.id_producto_pedido', '=', 'pr.id')
+                    ->get();
+        return DataTables::of($resultado)
+            ->make(true);
+    }
 }

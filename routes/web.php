@@ -109,6 +109,8 @@ Route::get('/clear-cache', function () {
 // Ruta para la vista de la app 
 Route::resource('apprutavista', 'appRutaVistaController')->middleware('auth','tiporol');
 Route::get('/appvista-data', 'appRutaVistaController@AppRutaVistaData')->name('appvista.data')->middleware('auth','tiporol');
+Route::get('/apppedidos-data', 'appRutaVistaController@AppPedidos')->name('apppedidos.data')->middleware('auth','tiporol');
+
 
 // route para imagenes
 Route::get('/img/{filename}', function ($filename) {

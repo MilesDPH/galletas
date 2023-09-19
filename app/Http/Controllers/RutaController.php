@@ -87,7 +87,7 @@ class RutaController extends Controller
     // guardar la ruta por tienda
     public function guardartiendaruta(Request $request)
     {
-        $dias = $request->lunes.'-'.$request->martes.'-'.$request->miercoles.'-'.$request->jueves.'-'.$request->viernes;
+        $dias = $request->lunes.'-'.$request->martes.'-'.$request->miercoles.'-'.$request->jueves.'-'.$request->viernes.'-'.$request->sabado;
         $tiendas = DB::table('ruta_tiendas')
         ->where([
             ['fk_tienda', '=', $request->idhiddentienda],

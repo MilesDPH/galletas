@@ -235,6 +235,10 @@
                                 <input type="checkbox" class="custom-control-input" id="viernes" name="viernes" value="viernes">
                                 <label class="custom-control-label" for="viernes">Viernes</label>
                             </div>
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="sabado" name="sabado" value="sabado">
+                                <label class="custom-control-label" for="sabado">Sabado</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -391,7 +395,7 @@
     });
     $(document).on('click','#vehiculoguardar',function(){
         var form = $('#agregarvehiculoruta')
-        var url = 'http://localhost/rutavehiculo'
+        var url = 'rutavehiculo'
    		var data = form.serialize()
         $.ajax({
             url: url,
@@ -621,7 +625,7 @@
     $(document).on('click','#editguardar',function(){
         var id = $('#idhidden').val()
         var form = $('#formeditruta')
-        var url = 'http://localhost/rutas'
+        var url = 'rutas'
    		var data = form.serialize()
    		url = url+'/'+ id
         // console.log(data)
@@ -814,7 +818,7 @@
         var form = $('#agregartienda')
    		// var url = form.attr('action')
         //    url = url.replace('tiendas','busqueda')
-        var url = 'http://localhost/busquedatienda'
+        var url = 'busquedatienda'
    		var inputbusqueda = $(this).val();
    		var data = form.serialize()
    		url = url+'/'+ inputbusqueda
@@ -851,7 +855,7 @@
 
     $(document).on('click','#tiendaguardar',function(){
         var form = $('#agregartienda')
-        var url = 'http://localhost/gtiendaruta'
+        var url = 'gtiendaruta'
    		var data = form.serialize()
         $.ajax({
             url: url,

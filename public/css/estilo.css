@@ -169,3 +169,10 @@ table{
 h4{
     text-align: center !important;
 }
+
+/* Estilos para centrar un div con flexbox */
+.centered {
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+  }

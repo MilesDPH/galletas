@@ -6,6 +6,7 @@ use App\Tienda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use QrCode;
 
 class TiendaController extends Controller
 {
@@ -163,5 +164,20 @@ class TiendaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function generateQR($id)
+    {
+        // Obtén los datos de la consulta de MySQL utilizando el $id
+        $data = Tienda::find($id);
+
+        if (!$data) {
+            abort(404); // Manejar el caso donde no se encuentra el ID
+        }
+
+        // Genera el QR con el ID como contenido
+        $qrCode = QrCode::size(200)->generate($id);
+
+        return view('tienda.qr', compact('qrCode', 'data'));
     }
 }

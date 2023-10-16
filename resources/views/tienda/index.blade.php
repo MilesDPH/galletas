@@ -71,7 +71,7 @@
                     sortable: false,
                     "render": function ( data, type, full, meta ) {
                         var buttonID = full.id;
-                        return '<a href="/tiendas/'+buttonID+'/edit" class="btn btn-outline-primary btn-block">Editar</a>';
+                        return '<a href="/tiendas/'+buttonID+'/edit" class="btn btn-outline-primary btn-block">Editar</a><a href="qr/generar/'+buttonID+'" class="btn btn-outline-primary btn-block">Generar Qr</a>';
                     }
                 },
                 

@@ -9,7 +9,7 @@
                 Regresar
             </a>
         </div>
-        <h5 class="section-title h1">QR Code for ID: {{ $data->id }}</h5>
+        <h5 class="section-title h1">Nombre de la tienda: {{ $data->nombre_tienda }}</h5>
     </div>
     <div class="container-mod">
         <div class="row">

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 use QrCode;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class TiendaController extends Controller
 {
@@ -180,4 +181,24 @@ class TiendaController extends Controller
 
         return view('tienda.qr', compact('qrCode', 'data'));
     }
+
+    public function generateAllQR()
+    {
+        // Obtén los datos de la consulta de MySQL utilizando el $id
+        $data = DB::table('tiendas')
+        ->get();
+        if (!$data) {
+            abort(404); // Manejar el caso donde no se encuentra el ID
+        }
+
+        $datos = [
+            'tiendas' => $data,
+        ];
+
+        return view('tienda.qr-pdf', $datos);        
+        // return PDF::loadView('tienda.qr-pdf', $datos)
+        //     ->stream('tiendasqr.pdf', array("Attachment" => false));
+    }
+
+
 }

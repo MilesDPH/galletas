@@ -30,6 +30,9 @@
             <a href="{{ url('/tiendas/create') }}" class="btn btn-primary btn-fab">
                 <i class="fa fa-user-plus"> Agregar Tienda</i>
             </a>
+            <a href="{{ url('/generate-pdf') }}" class="btn btn-primary">
+                Crear Todos los QR
+            </a>
         </div>
 </section>
 

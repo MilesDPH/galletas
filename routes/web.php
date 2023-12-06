@@ -62,6 +62,7 @@ Route::resource('/tiendas', 'TiendaController')->middleware('auth','tiporol');
 Route::get('/tienda-data', 'TiendaController@tiendaData')->name('tienda.data')->middleware('auth','tiporol');
 Route::post('/busqueda/{buscar?}', 'TiendaController@busquedaData')->name('busqueda.data')->middleware('auth','tiporol');
 Route::get('/qr/generar/{id}', 'TiendaController@generateQR');
+Route::get('/generate-pdf', 'TiendaController@generateAllQR');
 
 //resource para rutas
 Route::resource('/rutas', 'RutaController')->middleware('auth','tiporol');

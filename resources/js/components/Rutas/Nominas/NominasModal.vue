@@ -48,21 +48,21 @@
                                 <div class="form-group">
                                     <label class="form-label" for="meta_minima">Meta minima</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.meta_minima" name="meta_minima" id="meta_minima" disabled
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.meta_minima"
+                                                        name="meta_minima" id="meta_minima"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options" disabled
+                                        />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="meta_maxima">Meta máxima</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.meta_maxima" name="meta_maxima" id="meta_maxima" disabled
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.meta_maxima"
+                                                        name="meta_maxima" id="meta_maxima"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options" disabled
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -105,12 +105,12 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Sueldo base</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat disabled
-                                                         class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                                         v-model="nomina.activos.sueldo_base" name="sueldo_base"
-                                                         id="sueldo_base"
-                                                         :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.activos.sueldo_base"
+                                                        name="sueldo_base" id="sueldo_base"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                                        disabled :value="nomina.activos.sueldo_base"
+                                                        />
                                     </div>
                                 </div>
                             </div>
@@ -118,12 +118,11 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Ayuda de transporte</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.activos.ayuda_transporte" name="ayuda_transporte"
-                                            id="ayuda_transporte"
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.activos.ayuda_transporte"
+                                                        name="ayuda_transporte" id="ayuda_transporte"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                                        />
                                     </div>
                                 </div>
                             </div>
@@ -131,12 +130,11 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Ayuda de despensa</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.activos.ayuda_despensa" name="ayuda_despensa"
-                                            id="ayuda_despensa"
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.activos.ayuda_despensa"
+                                                        name="ayuda_despensa" id="ayuda_despensa"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -146,11 +144,12 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Comisión</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.activos.comision" name="comision" id="comision" disabled
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.activos.comision"
+                                                        name="comision" id="comision"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        disabled
+                                                        :options="options"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -158,12 +157,11 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Bono de servicio al cliente</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.activos.bono_servicio_cliente" name="bono_servicio_cliente"
-                                            id="bono_servicio_cliente"
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.activos.bono_servicio_cliente"
+                                                        name="bono_servicio_cliente" id="bono_servicio_cliente"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -171,12 +169,11 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Bono personal</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.activos.bono_personal" name="bono_personal"
-                                            id="bono_personal"
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.activos.bono_personal"
+                                                        name="bono_personal" id="bono_personal"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -186,32 +183,71 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Bono devolución</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.activos.bono_devolucion" name="bono_devolucion"
-                                            id="bono_devolucion" disabled
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.activos.bono_devolucion"
+                                                        name="bono_devolucion" id="bono_devolucion"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                        />
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-6">
+                                <label for="tiene_bono_mensual">¿Bono mensual?</label>
+                                <toggle-button id="tiene_bono_mensual" name="tiene_bono_mensual"
+                                               v-model="tiene_bono_mensual"></toggle-button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="form-label" for="comienza_en">Cuota mensual</label></div>
+                                    </div>
+
+                                    <div class="form-control-wrap">
+                                        <currency-input v-model="cuota_mensual"
+                                                        name="cuota_mensual" id="cuota_mensual"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        disabled
+                                                        :options="options"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="form-label" for="comienza_en">Venta mensual</label></div>
+                                    </div>
+
+                                    <div class="form-control-wrap">
+                                        <currency-input v-model="nomina.venta_mensual"
+                                                        name="venta_mensual" id="venta_mensual"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :disabled="true"
+                                                        :options="options"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-6">
                                             <label class="form-label" for="comienza_en">Bono mensual</label></div>
-                                        <div class="col-6">
-                                            <toggle-button v-model="tiene_bono_mensual"></toggle-button>
-                                        </div>
                                     </div>
 
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.activos.bono_mensual" name="bono_mensual"
-                                            id="bono_mensual" :disabled="!tiene_bono_mensual"
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.activos.bono_mensual"
+                                                        name="bono_mensual" id="bono_mensual"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                                        :disabled="!tiene_bono_mensual"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -223,11 +259,11 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Infonavit</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.pasivos.infonavit" name="infonavit" id="infonavit"
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.pasivos.infonavit"
+                                                        name="infonavit" id="infonavit"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -235,12 +271,11 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Prestamo</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.pasivos.prestamo" name="prestamo"
-                                            id="prestamo"
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.pasivos.prestamo"
+                                                        name="prestamo" id="prestamo"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -248,11 +283,11 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Faltante</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.pasivos.faltante" name="faltante" id="faltante"
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.pasivos.faltante"
+                                                        name="faltante" id="faltante"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -262,12 +297,12 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Devolución</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            disabled
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.pasivos.devolucion" name="devolucion" id="devolucion"
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.pasivos.devolucion"
+                                                        disabled
+                                                        name="devolucion" id="devolucion"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -275,12 +310,11 @@
                                 <div class="form-group">
                                     <label class="form-label" for="comienza_en">Descuento por falta</label>
                                     <div class="form-control-wrap">
-                                        <VueNumberFormat
-                                            class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                            v-model="nomina.pasivos.descuento_por_falta" name="descuento_por_falta"
-                                            id="descuento_por_falta"
-                                            :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                        ></VueNumberFormat>
+                                        <currency-input v-model="nomina.pasivos.descuento_por_falta"
+                                                        name="descuento_por_falta" id="descuento_por_falta"
+                                                        classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                        :options="options"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -293,12 +327,11 @@
                                     <div class="col-5">
                                         <label class="form-label" for="comienza_en">Cantidad</label>
                                         <div class="form-control-wrap">
-                                            <VueNumberFormat v-model="actual_otro_descuento.cantidad"
-                                                             class="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
-                                                             name="cantidad"
-                                                             id="cantidad"
-                                                             :options="{ precision: 2, prefix: '', suffix: ' MXN', decimal: '.', thousand: ',', acceptNegative: false, isInteger: false  }"
-                                            ></VueNumberFormat>
+                                            <currency-input v-model="actual_otro_descuento.cantidad"
+                                                            name="cantidad" id="cantidad"
+                                                            classes="form-control w-full border border-gray-200 rounded py-1 px-1 mb-3"
+                                                            :options="options"
+                                            />
                                         </div>
                                     </div>
                                     <div class="col-5">
@@ -372,6 +405,14 @@
                                         <td> Bono personal:</td>
                                         <td>{{ $moneyFormat(nomina.activos.bono_personal) }}</td>
                                     </tr>
+                                    <tr>
+                                        <td> Bono devolución:</td>
+                                        <td>{{ $moneyFormat(nomina.activos.bono_devolucion) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> Bono mensual:</td>
+                                        <td>{{ this.tiene_bono_mensual ? $moneyFormat(nomina.activos.bono_mensual) : $moneyFormat(0) }}</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -444,7 +485,7 @@
                                     :style="props.fillButtonStyle">Siguiente
                             </button>
 
-                            <button v-else @click="finalizarWizard()" class="wizard-btn"
+                            <button v-else @click="finalizarWizard()" class="wizard-btn" type="button"
                                     :style="props.fillButtonStyle"> {{ props.isLastStep ? 'Listo!' : 'Siguiente' }}
                             </button>
                         </div>
@@ -460,13 +501,16 @@
 import {Spanish} from "flatpickr/dist/l10n/es";
 import {FormWizard, TabContent} from 'vue-form-wizard';
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
+import CurrencyInput from "../../Templates/CurrencyInput/CurrencyInput";
 
 const default_fields = {
     mes_nomina_id: "",
     ruta_id: "",
     venta_semanal: 0,
+    venta_mensual: 0,
     total_activos: 0,
     total_pasivos: 0,
+    cuota_mensual: 0,
     total: 0,
     activos: {
         sueldo_base: 0,
@@ -476,6 +520,8 @@ const default_fields = {
         bono_servicio_cliente: 0,
         bono_personal: 0,
         bono_devolucion: 0,
+        bono_mensual: 0,
+        tiene_bono_mensual: false,
     },
     pasivos: {
         infonavit: 0,
@@ -493,13 +539,16 @@ const default_fields = {
 export default {
     name: "NominaModal",
     components: {
+        CurrencyInput,
         FormWizard,
-        TabContent
+        TabContent,
+
     },
     data() {
         return {
             tiene_bono_mensual: false,
             edit: false,
+            cuota_mensual: 0,
             venta_semanal: 0,
             descuento_extra: [],
             actual_otro_descuento: {
@@ -536,7 +585,6 @@ export default {
 
         enviarInformacion() {
             this.form.action = this.determinarRutaALlamar();
-            console.log(this.form.action);
             this.$refs.form.sendFormData();
         },
         /*
@@ -559,21 +607,17 @@ export default {
 
         },
         finalizarWizard() {
-            this.$modal.hide('nomina-modal');
-            this.$refs.form.unsetButtonLoading();
-            if (this.$refs.form.submitButton.style.display !== "none") {
-                if (this.form.method == "put") {
-                    this.$toast.open({duration: 5000, message: "Información actualizada correctamente"});
-                } else {
-                    this.$toast.open({duration: 5000, message: "El registro se creó correctamente."});
-                }
-                this.$emit("created")
-            }
+            axios.post(this.form.action, this.nomina).then(response => {
+              //this.$modal.hide('nomina-modal');
+              //this.$emit("created");
+              //this.$refs.form.unsetButtonLoading();
+            })
+
         },
         afterError(error) {
             console.log(this.enable_next_tab);
         },
-        afterDone() {
+        async afterDone() {
             this.$refs.wizard.nextTab();
             this.$refs.form.unsetButtonLoading();
             this.form.action = this.determinarRutaALlamar();
@@ -582,12 +626,14 @@ export default {
             axios.get(this.$route('mes-nomina.metas', mes_nomina_id)).then(response => {
                 this.nomina.meta_minima = response.data.meta_minima;
                 this.nomina.meta_maxima = response.data.meta_maxima;
+                this.cuota_mensual = response.data.meta_maxima * 4;
             });
         },
         beforeOpen(event) {
             this.edit = event.params.edit;
             this.nomina.mes_nomina_id = event.params.mes_nomina_id;
             this.mes = this.$moment(event.params.mes).format('YYYY-MM-DD');
+            this.obtenerVentasMensuales();
             this.obtenerMetaMes(this.nomina.mes_nomina_id);
             this.obtenerUsuarioAutenticado();
             this.calcularComision();
@@ -647,7 +693,8 @@ export default {
         calcularPercepciones() {
             this.nomina.total_activos = this.nomina.activos.sueldo_base + this.nomina.activos.ayuda_transporte +
                 this.nomina.activos.ayuda_despensa + this.nomina.activos.comision +
-                this.nomina.activos.bono_servicio_cliente + this.nomina.activos.bono_personal
+                this.nomina.activos.bono_servicio_cliente + this.nomina.activos.bono_personal + this.nomina.activos.bono_devolucion ;
+            this.nomina.total_activos += this.tiene_bono_mensual ? this.nomina.activos.bono_mensual : 0;
         },
         calcularDeducciones() {
             this.nomina.total_pasivos = this.nomina.pasivos.infonavit + this.nomina.pasivos.prestamo + this.nomina.pasivos.faltante +
@@ -656,12 +703,31 @@ export default {
         },
         calcularTotal() {
             this.nomina.total = this.nomina.total_activos - this.nomina.total_pasivos;
+        },
+        obtenerVentasMensuales() {
+            console.log(this.mes);
+            axios.get(this.$route('users.venta-mensual-total', {
+                mes: this.mes,
+                ruta_id: this.ruta_id
+            })).then(response => {
+                this.nomina.venta_mensual = response.data;
+            })
         }
     },
     computed: {
         ruta_id() {
             return window.location.href.split('/')[4];
-        }
+        },
+        options() {
+            return {
+                precision: 2,
+                decimal: '.',
+                thousands: ',',
+                prefix: '$',
+                suffix: 'MXN',
+                masked: false
+            }
+        },
     },
     watch: {
         descuento_extra() {
@@ -686,6 +752,13 @@ export default {
         venta_semanal() {
             this.nomina.venta_semanal = this.venta_semanal;
             this.calcularComision();
+        },
+        cuota_mensual() {
+            this.nomina.activos.cuota_mensual = this.cuota_mensual;
+            this.nomina.activos.bono_mensual = Math.abs((this.nomina.venta_mensual - this.cuota_mensual) * .06);
+        },
+        tiene_bono_mensual(){
+            this.nomina.activos.tiene_bono_mensual = this.tiene_bono_mensual;
         }
     }
 }

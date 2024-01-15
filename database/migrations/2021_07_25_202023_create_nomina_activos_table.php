@@ -22,6 +22,7 @@ class CreateNominaActivosTable extends Migration
             $table->float('bono_servicio_cliente', 8, 2);
             $table->float('bono_personal', 8, 2);
             $table->float('bono_devolucion', 8, 2);
+            $table->float('bono_mensual', 8, 2)->nullable();
 
 
             $table->timestamps();

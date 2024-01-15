@@ -155,6 +155,20 @@
                             @enderror
                         </div>
                         <div class="col-md-12 col-xs-12 col-lg-12">
+                            <p>Usuario asignado</p>
+                            <select class="form-control" id="user_id" name="user_id">
+                                @foreach ($usuarios as $usuario)
+                                    <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                                @endforeach
+                            </select>
+
+                            @error('$usuario')
+                            <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="col-md-12 col-xs-12 col-lg-12">
                             <p>Fecha de baja de la Ruta</p>
                             <input id="fechabaja" value="" type="text" class="form-control" name="fechabaja">
                             <script>

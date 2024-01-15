@@ -95,6 +95,7 @@ class UsuarioController extends Controller
                 ['estatus_lic', '=', 1]
             ])
             ->get();
+
         // return view('usuarios.edit',["usuarios" => $usuariosvar]);
         return view('usuarios.edit')->with('usuarios', $usuariosvar)->with('estatus', $usuariosrol)->with('roles', $roles)->with('licencia', $licenciavar);
     }
@@ -134,6 +135,8 @@ class UsuarioController extends Controller
         $usuariosvar->fktiporol = $request->puesto;
         $usuariosvar->fecha_ingreso = $request->fechaingreso;
         $usuariosvar->fecha_nacimiento = $request->fechanacimiento;
+        $usuariosvar->salario = $request->salario;
+        $usuariosvar->infonavit = $request->infonavit;
 
         // Para la baja
         $usuariosvar->estatus = $request->baja;

@@ -111,6 +111,7 @@ import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/es.js';
 import MetaMensualModal from "./MetaMensualModal";
 import BonoAnualModal from "./BonoAnualModal";
+import Vue from "vue";
 
 export default {
     name: "NominasTable",
@@ -150,10 +151,11 @@ export default {
         imprimirNominas(id) {
             axios.get(this.$route('nominas.imprimir', id)).then(response => {
 
-                window.open('../../../../' + response.data, '_blank');
+                window.open('../../../../storage/' + response.data, '_blank');
             })
         },
         reloadTable() {
+            console.log('evento emitido');
             this.obtenerNominas();
         },
         editNominas(id) {
@@ -174,7 +176,8 @@ export default {
                         title: "Eliminar",
                         handler: () => {
                             axios.delete(this.$route("rutas.nominas.destroy", id)).then(this.reloadTable);
-                            Vue.$toast.open({duration: 5000, message: "Elemento eliminado exitosamente."});
+                            this.$modal.hide("dialog");
+                            this.$toast.open({duration: 5000, message: "Elemento eliminado exitosamente."});
                         }
                     }
                 ]

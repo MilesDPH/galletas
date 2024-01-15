@@ -8,6 +8,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+
+import Vue from 'vue/dist/vue.min.js'
 import components from "./components";
 import route from "ziggy";
 import {Ziggy} from "./routes";
@@ -25,6 +27,8 @@ import VueFileAgent from 'vue-file-agent';
 import VueNumberFormat from 'vue-number-format';
 import 'line-awesome/dist/line-awesome/css/line-awesome.min.css';
 import ToggleButton from 'vue-js-toggle-button';
+
+import money from 'v-money';
 
 
 moment.locale('es-mx');
@@ -51,6 +55,15 @@ Vue.use(ALVue);
 Vue.use(VueSweetalert2);
 Vue.use(VueNumberFormat, {prefix: 'R$ ', decimal: ',', thounsand: '.'});
 Vue.use(ToggleButton);
+Vue.use(money, {
+    precision: 2,
+    decimal: '.',
+    thousands: ',',
+    prefix: '$',
+    suffix: '',
+    masked: false
+});
+
 
 
 

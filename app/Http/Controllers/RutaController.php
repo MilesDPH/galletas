@@ -8,6 +8,8 @@ use App\Rutas;
 use App\RutaTienda;
 use App\User;
 use App\VehiculoRuta;
+use App\venta_x_ruta;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -316,6 +318,22 @@ class RutaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function obtenerVentasMensuales($ruta_id, $mes)
+    {
+        $ruta = Rutas::findOrFail($ruta_id);
+        $cb = Carbon::createFromFormat('Y-m-d', $mes);
+        $cb_end = Carbon::createFromFormat('Y-m-d', $mes);
+        $inicio = $cb->startOfMonth();
+        $final = $cb_end->endOfMonth();
+
+        $fechas = [$inicio, $final];
+
+        $total_ventas = $ruta->venta_x_ruta->where('tipo_movi', venta_x_ruta::VENTA)->whereBetween('created_at', [$fechas[0], $fechas[1]])->sum('total');
+
+
+        return $total_ventas;
     }
 
 }

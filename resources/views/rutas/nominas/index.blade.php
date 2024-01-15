@@ -9,7 +9,9 @@
 
 
 @section('content')
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <head>
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    </head>
     <section>
         <div class="row">
             <div class="col-12">

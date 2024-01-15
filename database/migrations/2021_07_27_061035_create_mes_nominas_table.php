@@ -17,10 +17,12 @@ class CreateMesNominasTable extends Migration
             $table->bigIncrements('id');
             $table->float('meta_minima', 8, 2);
             $table->float('meta_maxima', 8, 2);
+            $table->unsignedBigInteger('ruta_id');
 
             $table->date('mes');
 
             $table->timestamps();
+            $table->foreign('ruta_id')->on('rutas')->references('id');
         });
     }
 

@@ -362,6 +362,10 @@
                             <td class="qty">${{number_format($data['activos']['bono_devolucion'], 2)}}</td>
                         </tr>
                         <tr>
+                            <td class="qty">Bono mensual</td>
+                            <td class="qty">${{number_format($data['activos']['bono_mensual'], 2)}}</td>
+                        </tr>
+                        <tr>
                             <td class="unit">TOTAL PERCEPCIONES</td>
                             <td class="unit">${{number_format($data['nomina']['total_activos'], 2)}}</td>
                         </tr>

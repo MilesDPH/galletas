@@ -107,6 +107,20 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="salario" class="col-md-4 col-form-label text-md-right">{{ __('Salario') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="salario" value="{{ $usuarios->salario }}" type="text" class="form-control" name="salario">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="salario" class="col-md-4 col-form-label text-md-right">{{ __('Infonavit') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="infonavit" value="{{ $usuarios->infonavit }}" type="text" class="form-control" name="infonavit">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="puesto" class="col-md-4 col-form-label text-md-right">{{ __('Puesto') }}</label>
 
                             <div class="col-md-6">

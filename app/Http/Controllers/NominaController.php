@@ -110,6 +110,8 @@ class NominaController extends Controller
 
     private function generarActivos($request)
     {
+        $tiene_bono_mensual = filter_var($request['activos']['tiene_bono_mensual'], FILTER_VALIDATE_BOOL);
+
         $pasivos = new NominaActivo();
         $pasivos->sueldo_base = $request['activos']['sueldo_base'];
         $pasivos->ayuda_transporte = $request['activos']['ayuda_transporte'];
@@ -118,6 +120,7 @@ class NominaController extends Controller
         $pasivos->bono_servicio_cliente = $request['activos']['bono_servicio_cliente'];
         $pasivos->bono_personal = $request['activos']['bono_personal'];
         $pasivos->bono_devolucion = $request['activos']['bono_devolucion'];
+        $pasivos->bono_mensual = $tiene_bono_mensual ? $request['activos']['bono_mensual'] : 0;
         $pasivos->save();
 
         return $pasivos;
@@ -125,28 +128,34 @@ class NominaController extends Controller
 
     public function guardarNomina(GuardarNominaRequest $request)
     {
-        $pasivos = $this->generarPasivos($request);
-        $activos = $this->generarActivos($request);
-        $nomina_ruta = new Nomina();
-        $comienza_en = explode(' to ', $request->mes)[0];
-        $finaliza_en = explode(' to ', $request->mes)[1];
-        $nomina_ruta->comienza_en = $comienza_en;
-        $nomina_ruta->finaliza_en = $finaliza_en;
-        $nomina_ruta->ruta_id = $request->ruta_id;
-        $nomina_ruta->total_activos = $request->total_activos;
-        $nomina_ruta->total_pasivos = $request->total_pasivos;
-        $nomina_ruta->total = $request->total;
-        $nomina_ruta->venta_semanal = $request->venta_semanal;
-        $nomina_ruta->nomina_pasivo_id = $pasivos->id;
-        $nomina_ruta->nomina_activo_id = $activos->id;
-        $fechas = explode(" to ", $request->mes);
-        $nomina_ruta->inicio_en = $fechas[0];
-        $nomina_ruta->final_en = $fechas[1];
-        $nomina_ruta->mes_nomina_id = $request->mes_nomina_id;
+        try{
+            $pasivos = $this->generarPasivos($request);
+            $activos = $this->generarActivos($request);
+            $nomina_ruta = new Nomina();
 
-        $nomina_ruta->save();
+            $comienza_en = explode(' to ', $request->mes)[0];
+            $finaliza_en = explode(' to ', $request->mes)[1];
+            $nomina_ruta->comienza_en = $comienza_en;
+            $nomina_ruta->finaliza_en = $finaliza_en;
+            $nomina_ruta->ruta_id = $request->ruta_id;
+            $nomina_ruta->total_activos = $request->total_activos;
+            $nomina_ruta->total_pasivos = $request->total_pasivos;
+            $nomina_ruta->total = $request->total;
+            $nomina_ruta->venta_semanal = $request->venta_semanal;
+            $nomina_ruta->nomina_pasivo_id = $pasivos->id;
+            $nomina_ruta->nomina_activo_id = $activos->id;
+            $fechas = explode(" to ", $request->mes);
+            $nomina_ruta->inicio_en = $fechas[0];
+            $nomina_ruta->final_en = $fechas[1];
+            $nomina_ruta->mes_nomina_id = $request->mes_nomina_id;
 
-        return $nomina_ruta;
+            $nomina_ruta->save();
+
+            return $nomina_ruta;
+        } catch (\Exception $e){
+            dd($e->getMessage());
+        }
+
     }
 
     public function mostrarNomina($nomina_id)
@@ -213,7 +222,7 @@ class NominaController extends Controller
     {
         $request->validate(
             [
-                'mes' => 'required',
+                'mes' => ['required', 'regex:/^\d{4}-\d{2}-\d{2} to \d{4}-\d{2}-\d{2}$/'],
                 'meta_minima' => 'required|numeric|min:0|max:999999999',
                 'meta_maxima' => 'required|numeric|min:0|max:999999999'
             ]);
@@ -259,12 +268,13 @@ class NominaController extends Controller
         $year = Carbon::createFromFormat('Y-m', $mes)->year;
         $month = Carbon::createFromFormat('Y-m', $mes)->month;
 
-        $mes_nomina = MesNomina::whereYear('mes', $year)->whereMonth('mes', $month)->first();
+        $mes_nomina = MesNomina::whereYear('mes', $year)->whereMonth('mes', $month)->where('ruta_id', $ruta_id)->first();
         if (!$mes_nomina) {
             $mes_nomina = new MesNomina();
             $mes_nomina->mes = Carbon::createFromFormat('Y-m', $mes);
             $mes_nomina->meta_minima = 0;
             $mes_nomina->meta_maxima = 1;
+            $mes_nomina->ruta_id = $ruta_id;
             $mes_nomina->save();
         }
 
@@ -319,21 +329,31 @@ class NominaController extends Controller
         $nomina->nomina_pasivo;
         $nomina->nomina_activo;
         if (!$nomina->direccion_pdf) {
-            $data = [
-                'user_data' => $nomina->user_data,
-                'activos' => $nomina->nomina_activo,
-                'pasivos' => $nomina->nomina_pasivo,
-                'nomina' => $nomina
-            ];
-            $pdf = PDF::loadView('pdf.nominas.nominas', compact('data'));
-            $direccion_pdf = 'invoices/factura' . $id . '.pdf';
-            Storage::put('public/'.$direccion_pdf, $pdf->output());
-            $nomina->direccion_pdf = $direccion_pdf;
-            $nomina->save();
+            $nomina = $this->generateNewDocument($nomina, $id);
+        }
+
+        if (!Storage::disk('public')->has($nomina->direccion_pdf)) {
+            $nomina = $this->generateNewDocument($nomina, $id);
         }
 
 
-
         return $nomina->direccion_pdf;
+    }
+
+    private function generateNewDocument($nomina, $id)
+    {
+        $data = [
+            'user_data' => $nomina->user_data,
+            'activos' => $nomina->nomina_activo,
+            'pasivos' => $nomina->nomina_pasivo,
+            'nomina' => $nomina
+        ];
+        $pdf = PDF::loadView('pdf.nominas.nominas', compact('data'));
+        $direccion_pdf = 'invoices/factura' . $id . '.pdf';
+        Storage::put('public/' . $direccion_pdf, $pdf->output());
+        $nomina->direccion_pdf = $direccion_pdf;
+        $nomina->save();
+
+        return $nomina;
     }
 }

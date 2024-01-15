@@ -608,9 +608,9 @@ export default {
         },
         finalizarWizard() {
             axios.post(this.form.action, this.nomina).then(response => {
-              //this.$modal.hide('nomina-modal');
-              //this.$emit("created");
-              //this.$refs.form.unsetButtonLoading();
+              this.$modal.hide('nomina-modal');
+              this.$emit("created");
+              this.$refs.form.unsetButtonLoading();
             })
 
         },
